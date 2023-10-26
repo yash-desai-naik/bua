@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+
 import "./App.css";
 import {
   BsFillBookmarkFill,
@@ -7,6 +9,7 @@ import {
   BsArrowUp,
 } from "react-icons/bs";
 import JSONdata from "./output_data.json";
+import axios from "axios";
 
 const NegativeOutlierIcon = () => (
   <>
@@ -29,12 +32,64 @@ const data = JSONdata.map((d) => {
 });
 
 function App() {
+  const [uploadedFile, setUploadedFile] = useState(null);
+
+  const [data, setData] = useState([]); // Initialize data as an empty array
+  const [specificValue, setSpecificValue] = useState("BU-A"); // Replace with your specific value
+
+  const handleFileChange = (event) => {
+    setUploadedFile(event.target.files[0]);
+  };
+
+  const handleValueChange = (event) => {
+    setSpecificValue(event.target.value);
+  };
+
+  const uploadFile = async () => {
+    if (uploadedFile) {
+      const formData = new FormData();
+      formData.append("excel_file", uploadedFile);
+
+      try {
+        const response = await axios.post(
+          `http://localhost:8000/process-excel/?specific_value=${specificValue}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        // Assuming the API response is in the expected format
+        setData(response.data);
+      } catch (error) {
+        console.error("Error uploading and processing file:", error);
+      }
+    } else {
+      console.error("No file selected");
+    }
+  };
+
   return (
     <>
+      {/* Create a simple file input field for XLSX file upload */}
+      <input type="file" accept=".xlsx" onChange={handleFileChange} />
+      <input
+        type="text"
+        className="ring-2 ring-gray-400 rounded"
+        onChange={handleValueChange}
+      />
+      <button
+        onClick={uploadFile}
+        className="ml-2 bg-green-400 rounded px-2 py-1"
+      >
+        Upload
+      </button>
       <div className="header container p-10">
-        <div className="flex justify-between">
+        <div className="flex ">
           <h1 className="text-3xl text-green-900 ">
-            Emerging Relativity of roles – SBUs (BU-A)
+            Emerging Relativity of roles – SBUs ({specificValue})
           </h1>
           <div className="legend-outlier flex gap-4">
             <div className="flex-col gap-4 my-2">
@@ -93,10 +148,21 @@ function App() {
                   </div>
                 </div>
               </div>
-              <div className="flex justify-center w-screen gap-2 text-xs">
-                {item.uniqueJobs.map((job, jobIndex) => (
+              {/* <pre className="bg-red-200">{JSON.stringify(item)}</pre> */}
+              <div
+                className={`flex ${
+                  item?.uniqueJobs.length < 10 ? "justify-center w-screen" : ""
+                }  gap-2 text-xs`}
+              >
+                {item?.uniqueJobs.map((job, jobIndex) => (
                   <div
                     key={jobIndex}
+                    style={{
+                      position: "relative",
+                      left: "100px",
+
+                      top: `-${job.hayScore * 0.018}` + "px",
+                    }}
                     className="w-36 h-24 px-2 py-1 ring-gray-300 ring-1 gap-4"
                   >
                     {job.outlierIcon === -1 ? (
