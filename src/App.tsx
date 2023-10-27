@@ -35,7 +35,7 @@ function App() {
   const [uploadedFile, setUploadedFile] = useState(null);
 
   const [data, setData] = useState([]); // Initialize data as an empty array
-  const [specificValue, setSpecificValue] = useState("BU-A"); // Replace with your specific value
+  const [specificValue, setSpecificValue] = useState(null); // Replace with your specific value
 
   const handleFileChange = (event) => {
     setUploadedFile(event.target.files[0]);
@@ -52,7 +52,7 @@ function App() {
 
       try {
         const response = await axios.post(
-          `http://localhost:8000/process-excel/?specific_value=${specificValue}`,
+          `http://localhost:8000/api/process_excel/?specific_value=${specificValue}`,
           formData,
           {
             headers: {
@@ -136,7 +136,7 @@ function App() {
                       {item.band}
                     </small>
                     <small className="[writing-mode:vertical-lr]  flex justify-center rotate-180 h-36   font-bold py-2 text-gray-600">
-                      {item.hayScoreRange}
+                      {item.range}
                     </small>
                     <span className="h-36 text-gray-300 flex flex-col   justify-between">
                       <BsArrowUp size={30} />
@@ -160,8 +160,9 @@ function App() {
                     style={{
                       position: "relative",
                       left: "100px",
+                      bottom: 0,
 
-                      top: `-${job.hayScore * 0.018}` + "px",
+                      top: `-${job.hayScore * 0.023}` + "px",
                     }}
                     className="w-36 h-24 px-2 py-1 ring-gray-300 ring-1 gap-4"
                   >
@@ -174,7 +175,7 @@ function App() {
                     )}
                     {job.title}
                     <br />
-                    <small className="ml-3 font-bold">{job.hayScore}</small>
+                    <small className="font-bold">{job.hayScore}</small>
                   </div>
                 ))}
               </div>
