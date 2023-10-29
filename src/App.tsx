@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
+import { Tree, TreeNode } from "react-organizational-chart";
+import TreeChart from "./TreeChart";
 
 import "./App.css";
 import {
@@ -8,7 +10,6 @@ import {
   BsArrowDown,
   BsArrowUp,
 } from "react-icons/bs";
-import JSONdata from "./output_data.json";
 import axios from "axios";
 
 const NegativeOutlierIcon = () => (
@@ -26,10 +27,6 @@ const PositiveOutlierIcon = () => (
     </span>
   </>
 );
-
-const data = JSONdata.map((d) => {
-  return { ...d, percentage: 12 };
-});
 
 function App() {
   const [uploadedFile, setUploadedFile] = useState(null);
@@ -126,35 +123,38 @@ function App() {
         </div>
       </div>
       <section className="chart">
-        {data.map((item, index) => (
-          <>
-            <div key={index} className="flex items-center">
-              <div className="left-labels">
-                <div className="h-36 w-5 bg-lime-400">
-                  <div className="flex">
-                    <small className="[writing-mode:vertical-lr]  flex justify-center rotate-180 h-36 font-bold  py-2">
-                      {item.band}
-                    </small>
-                    <small className="[writing-mode:vertical-lr]  flex justify-center rotate-180 h-36   font-bold py-2 text-gray-600">
-                      {item.range}
-                    </small>
-                    <span className="h-36 text-gray-300 flex flex-col   justify-between">
-                      <BsArrowUp size={30} />
-                      <small className="  text-base font-bold py-2 text-gray-600">
-                        {item.percentage}%
+        <div className="w-screen fixed">
+          {data.map((item, index) => (
+            <div className="top-250 left-0">
+              <div key={index} className="flex items-center">
+                <div className="left-labels ">
+                  <div className="h-36 w-5 bg-lime-400">
+                    <div className="flex">
+                      <small className="[writing-mode:vertical-lr]  flex justify-center rotate-180 h-36 font-bold  py-2">
+                        {item.band}
                       </small>
-                      <BsArrowDown size={30} />
-                    </span>
+                      <small className="[writing-mode:vertical-lr]  flex justify-center rotate-180 h-36   font-bold py-2 text-gray-600">
+                        {item.range}
+                      </small>
+                      <span className="h-36 text-gray-300 flex flex-col   justify-between">
+                        <BsArrowUp size={30} />
+                        <small className="  text-base font-bold py-2 text-gray-600">
+                          {item.percentage}%
+                        </small>
+                        <BsArrowDown size={30} />
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              {/* <pre className="bg-red-200">{JSON.stringify(item)}</pre> */}
-              <div
-                className={`flex ${
-                  item?.uniqueJobs.length < 10 ? "justify-center w-screen" : ""
-                }  gap-2 text-xs`}
-              >
-                {item?.uniqueJobs.map((job, jobIndex) => (
+                {/* <pre className="bg-red-200">{JSON.stringify(item)}</pre> */}
+                <div
+                  className={`flex ${
+                    item?.uniqueJobs.length < 10
+                      ? "justify-center w-screen"
+                      : ""
+                  }  gap-2 text-xs`}
+                >
+                  {/* {item?.uniqueJobs.map((job, jobIndex) => (
                   <div
                     key={jobIndex}
                     style={{
@@ -177,13 +177,17 @@ function App() {
                     <br />
                     <small className="font-bold">{job.hayScore}</small>
                   </div>
-                ))}
+                ))} */}
+                </div>
               </div>
+              {/* ...dotted line... */}
+              <hr className="my-2" />
             </div>
-            {/* ...dotted line... */}
-            <hr className="my-2" />
-          </>
-        ))}
+          ))}
+        </div>
+        <div className="h-screen absolute left-[100px] top-[500px]">
+          <TreeChart jsonData={data} />
+        </div>
       </section>
     </>
   );
