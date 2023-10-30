@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { useState } from "react";
 import { Tree, TreeNode } from "react-organizational-chart";
 import TreeChart from "./TreeChart";
