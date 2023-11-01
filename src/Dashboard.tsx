@@ -13,6 +13,33 @@ import {
 } from "react-icons/bs";
 import axios from "axios";
 
+const colorMap = {}; // To store colors for each parent_id
+
+function getRandomColor(parentId) {
+  if (colorMap[parentId]) {
+    return colorMap[parentId];
+  }
+
+  // Generate a random color with a minimum brightness level
+  const minBrightness = 40; // Adjust this value as needed
+  let randomColor;
+
+  do {
+    randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+  } while (getBrightness(randomColor) < minBrightness);
+
+  colorMap[parentId] = randomColor;
+
+  return randomColor;
+}
+// Function to calculate brightness (assuming a hex color)
+function getBrightness(hexColor) {
+  const r = parseInt(hexColor.slice(1, 3), 16);
+  const g = parseInt(hexColor.slice(3, 5), 16);
+  const b = parseInt(hexColor.slice(5, 7), 16);
+  return (r * 299 + g * 587 + b * 114) / 1000;
+}
+
 const NegativeOutlierIcon = () => (
   <>
     <span className="text-red-500">
@@ -124,12 +151,12 @@ function Dashboard() {
         </div>
       </div>
       <section className="chart">
-        <div className="w-screen fixed">
+        <div className="w-screen ">
           {data.map((item, index) => (
-            <div className="top-250 left-0">
-              <div key={index} className="flex items-center">
+            <div className="top-250 left-0 sticky">
+              <div key={index} className="flex items-center ">
                 <div className="left-labels ">
-                  <div className="h-36 w-5 bg-lime-400">
+                  <div className="h-36 w-5 bg-lime-400 ">
                     <div className="flex">
                       <small className="[writing-mode:vertical-lr]  flex justify-center rotate-180 h-36 font-bold  py-2">
                         {item.band}
@@ -155,30 +182,34 @@ function Dashboard() {
                       : ""
                   }  gap-2 text-xs`}
                 >
-                  {/* {item?.uniqueJobs.map((job, jobIndex) => (
-                  <div
-                    key={jobIndex}
-                    style={{
-                      position: "relative",
-                      left: "100px",
-                      bottom: 0,
-
-                      top: `-${job.hayScore * 0.023}` + "px",
-                    }}
-                    className="w-36 h-24 px-2 py-1 ring-gray-300 ring-1 gap-4"
-                  >
-                    {job.outlierIcon === -1 ? (
-                      <NegativeOutlierIcon />
-                    ) : job.outlierIcon === 1 ? (
-                      <PositiveOutlierIcon />
-                    ) : (
-                      <></>
-                    )}
-                    {job.title}
-                    <br />
-                    <small className="font-bold">{job.hayScore}</small>
-                  </div>
-                ))} */}
+                  {item?.uniqueJobs.map((job, jobIndex) => (
+                    <div
+                      key={jobIndex}
+                      style={{
+                        position: "relative",
+                        left: "100px",
+                        bottom: 0,
+                        backgroundColor: getRandomColor(job.parentId),
+                        top: `-${job.hayScore * 0.023}` + "px",
+                      }}
+                      className="w-36 h-24 px-2 py-1 ring-gray-300 ring-1 gap-4"
+                    >
+                      {job.outlierIcon === -1 ? (
+                        <NegativeOutlierIcon />
+                      ) : job.outlierIcon === 1 ? (
+                        <PositiveOutlierIcon />
+                      ) : (
+                        <></>
+                      )}
+                      {job.title}
+                      <br />
+                      <small className="font-bold">{job.hayScore}</small>
+                      <br />
+                      <small className="font-bold">{job.id}</small>
+                      {" / "}
+                      <small className="font-bold">{job.parentId}</small>
+                    </div>
+                  ))}
                 </div>
               </div>
               {/* ...dotted line... */}
@@ -186,9 +217,9 @@ function Dashboard() {
             </div>
           ))}
         </div>
-        <div className="h-screen absolute left-[100px] top-[500px]">
+        {/* <div className="h-screen absolute left-[100px] top-[500px]">
           <TreeChart jsonData={data} />
-        </div>
+        </div> */}
       </section>
     </>
   );
