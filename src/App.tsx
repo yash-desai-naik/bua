@@ -1,17 +1,22 @@
 // App.tsx
-//@ts-nocheck
-
-import React from "react";
+//@ts-nocheck// App.tsx
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./Login";
+import { useLoginStore } from "./loginStore";
 import Dashboard from "./Dashboard";
 
 function App() {
+  const isAuthenticated = useLoginStore((state) => state.isAuthenticated);
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        {isAuthenticated ? (
+          <Route path="/dashboard" element={<Dashboard />} />
+        ) : (
+          // <Dashboard />
+          <Route path="/" element={<LoginPage />} />
+        )}
         {/* Define other routes as needed */}
       </Routes>
     </BrowserRouter>
