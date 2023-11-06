@@ -144,7 +144,7 @@ function Dashboard({ bu }) {
           onClick={uploadFile}
           className="ml-2 bg-green-400 rounded px-2 py-1"
         >
-          Upload
+          Draw
         </button>
         <div className="container header ">
           <div className="flex justify-between items-center">
