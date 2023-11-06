@@ -93,6 +93,9 @@ function Dashboard({ bu }) {
     setSpecificValue(event.target.value);
   };
 
+  const URL = "https://bua-fastapi.onrender.com";
+  // const URL = "http://localhost:8000";
+
   const uploadFile = async () => {
     if (uploadedFile) {
       const formData = new FormData();
@@ -101,7 +104,7 @@ function Dashboard({ bu }) {
       try {
         setIsLoading(true);
         const response = await axios.post(
-          `http://localhost:8000/api/process_excel?specific_value=${specificValue}`,
+          `${URL}/api/process_excel?specific_value=${specificValue}`,
           formData,
           {
             headers: {
