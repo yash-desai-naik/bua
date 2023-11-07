@@ -93,8 +93,8 @@ function Dashboard({ bu }) {
     setSpecificValue(event.target.value);
   };
 
-  // const URL = "https://bua-fastapi.onrender.com";
-  const URL = "http://localhost:8000";
+  const URL = "https://bua-fastapi.onrender.com";
+  // const URL = "http://localhost:8000";
 
   const uploadFile = async () => {
     if (uploadedFile) {
