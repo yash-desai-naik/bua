@@ -32,7 +32,7 @@ const PositiveOutlierIcon = () => (
   </>
 );
 
-const colorMap = {}; // To store colors for each parent_id
+let colorMap = {}; // To store colors for each parent_id
 
 function getRandomColor(parentId) {
   if (colorMap[parentId]) {
@@ -93,8 +93,8 @@ function Dashboard({ bu }) {
     setSpecificValue(event.target.value);
   };
 
-  const URL = "https://bua-fastapi.onrender.com";
-  // const URL = "http://localhost:8000";
+  // const URL = "https://bua-fastapi.onrender.com";
+  const URL = "http://localhost:8000";
 
   const uploadFile = async () => {
     if (uploadedFile) {
@@ -202,48 +202,57 @@ function Dashboard({ bu }) {
             </option>
           </select>
         </div>
+
         <section className="container h-screen chart" id="content-id">
           {isLoading ? (
             "Loading..."
           ) : isError ? (
             <div className="text-red-500 text-center">{errorMessage}</div>
           ) : (
-            <div className=" ">
+            <div className=" w-screen">
               {data.map((item, index) => (
-                <div className="  z-5 ">
-                  <div
-                    key={index}
-                    className="relative w-full flex items-center "
-                  >
-                    <div className="left-labels left-0 sticky">
-                      <div className=" w-full ">
-                        <div className="h-full  flex items-center justify-center">
+                <div className="relative">
+                  <div key={index} className=" w-full flex items-center gap-4">
+                    <div className="bg-white left-labels left-0 sticky z-50">
+                      <div className="bg-white  w-full z-50">
+                        <div className="bg-white  h-full  flex items-center justify-center">
                           <small className="  -rotate-90   font-bold   ">
                             {item.band}
                           </small>
-                          <small className="-rotate-90 text-xs  font-bold text-gray-600">
+                          <small className="-ml-4 w-[8rem] -rotate-90 text-xs text-center font-bold text-gray-600">
                             {item.range}
                           </small>
-                          <span className="h-36 w-full text-gray-300 flex flex-col   justify-between">
+                          <span className="-ml-5 h-36 w-full text-gray-300 flex flex-col   justify-between">
                             <BsArrowUp size={30} />
-                            <small className=" w-fulls text-xs font-bold py-2 text-gray-600">
+                            <small className=" -ml-3  text-center w-[3.8rem] -rotate-90 text-xs font-bold py-2 text-gray-600">
                               {item.percentage ?? 0}%
                             </small>
                             <BsArrowDown size={30} />
-                          </span>
+                          </span>{" "}
                         </div>
                       </div>
                     </div>
+
                     {/* <pre className="bg-red-200">{JSON.stringify(item)}</pre> */}
                     <div
-                      className={`relative flex ${
-                        item?.uniqueJobs.length < 10
-                          ? "justify-around w-screen"
-                          : "justify-between w-screen"
-                      }  gap-2 text-xs`}
+                      className={` w-screen flex
+                       justify-around
+                        text-xs`}
                     >
                       {item?.uniqueJobs.map((job, jobIndex) => (
-                        <>
+                        <div
+                          style={{
+                            // width: "",
+                            // zIndex: 49,
+                            backgroundColor: "white",
+                            opacity: 0.8,
+                            position: "relative",
+                            left: "0px",
+                            // bottom: "-24px",
+                            // backgroundColor,
+                            top: `-${job.hayScore * 0.0001}` + "px",
+                          }}
+                        >
                           <Xwrapper>
                             <Draggable
                               onDrag={updateXarrow}
@@ -252,17 +261,7 @@ function Dashboard({ bu }) {
                               <div
                                 id={job.id}
                                 key={jobIndex}
-                                style={{
-                                  zIndex: 999,
-                                  backgroundColor: "white",
-                                  opacity: 0.8,
-                                  position: "relative",
-                                  left: "100px",
-                                  // bottom: "-24px",
-                                  // backgroundColor,
-                                  top: `-${job.hayScore * 0.023}` + "px",
-                                }}
-                                className={`flex flex-col items-center  cursor-pointer w-1 px-2 py-1 ring-gray-600 ring-1 ${
+                                className={` cursor-pointer w-24 h-full px-2 py-1 ring-gray-600 ring-1 ${
                                   job.stepGapIcon == "High Step Gap"
                                     ? "!bg-blue-200"
                                     : job.stepGapIcon == "Low Step Gap"
@@ -277,16 +276,20 @@ function Dashboard({ bu }) {
                                 ) : (
                                   <></>
                                 )}
-                                <small className="text-center text-xs">
-                                  {job.title}
-                                </small>
-                                <small className="">
-                                  {" "}
-                                  ({job.current_grade})
-                                </small>
-                                <small className="font-bold">
-                                  {job.hayScore}
-                                </small>
+                                <div className="text-center">
+                                  <small className=" text-xs">
+                                    {job.title}
+                                  </small>
+                                  <br />
+                                  <small className="">
+                                    {" "}
+                                    ({job.current_grade})
+                                  </small>
+                                  <br />
+                                  <small className="font-bold ">
+                                    {job.hayScore}
+                                  </small>
+                                </div>
                                 {/* <br />
                                 <small className="font-bold">{job.id}</small>
                                 {" / "}
@@ -296,12 +299,12 @@ function Dashboard({ bu }) {
                               </div>
                             </Draggable>
                             <Xarrow
-                              start={job.parentId ? job.parentId : undefined} //can be react ref
-                              end={job.parentId ? job.id : undefined} //or an id
+                              start={job.parentId ? job.id : undefined} //can be react ref
+                              end={job.parentId ? job.parentId : undefined} //or an id
                               strokeWidth={1.5}
                               path={lineRender}
                               // showHead={false}
-                              showTail={true}
+                              // showTail={true}
                               // curveness={0.8}
                               // color="#0000007f"
                               color={
@@ -309,18 +312,22 @@ function Dashboard({ bu }) {
                                   ? getRandomColor(job.parentId)
                                   : "black"
                               }
-                              zIndex={0}
+                              // color="black"
+                              // zIndex={0}
                               // lineColor={"blue"}
                               // _cpx1Offset={5}
                               // _cpx2Offset={5}
                               // _cpy1Offset={5}
                               // _cpy2Offset={5}
                               // _debug={true}
-                              dashness={true}
+                              // dashness={true}
                               // labels={`${job.parentId} - ${job.parentId}`}
+                              startAnchor={"top"}
+                              endAnchor={"bottom"}
+                              gridBreak="10%+5"
                             />
                           </Xwrapper>
-                        </>
+                        </div>
                       ))}
                     </div>
                   </div>
