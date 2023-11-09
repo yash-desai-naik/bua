@@ -1,14 +1,20 @@
-// loginStore.ts
 import create from "zustand";
+
+interface User {
+  username: string;
+  // Add other user-related properties here
+}
 
 interface LoginStore {
   isAuthenticated: boolean;
-  login: () => void;
+  user: User | null; // Change to null initially
+  login: (user: User) => void;
   logout: () => void;
 }
 
 export const useLoginStore = create<LoginStore>((set) => ({
   isAuthenticated: false,
-  login: () => set({ isAuthenticated: true }),
-  logout: () => set({ isAuthenticated: false }),
+  user: null,
+  login: (user) => set({ isAuthenticated: true, user }),
+  logout: () => set({ isAuthenticated: false, user: null }),
 }));

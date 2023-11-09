@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
       <div className="bg-white p-8 rounded shadow-md w-96">
         <h2 className="text-2xl font-semibold mb-4">Login</h2>
         {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-        <form>
+        <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label
               htmlFor="username"
