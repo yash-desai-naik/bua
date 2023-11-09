@@ -99,10 +99,12 @@ function Dashboard({ bu }) {
     {
       band: string;
       range: string;
+      percentage: string;
       uniqueJobs: {
         title: string;
         current_band: string;
         current_grade: string;
+        curret_grade_color: string;
         hayScore: number;
         outlierIcon: -1 | 1 | 0;
         stepGapIcon: "High Step Gap" | "Low Step Gap" | "Other Step Gap";
@@ -252,11 +254,17 @@ function Dashboard({ bu }) {
                             {item.range}
                           </small>
                           <span className="-ml-5 h-36 w-full text-gray-300 flex flex-col   justify-between">
-                            <BsArrowUp size={30} />
-                            <small className=" -ml-3  text-center w-[3.8rem] -rotate-90 text-xs font-bold py-2 text-gray-600">
-                              {item.percentage ?? 0}%
-                            </small>
-                            <BsArrowDown size={30} />
+                            {item.percentage ? (
+                              <>
+                                <BsArrowUp size={30} />
+                                <small className=" -ml-3  text-center w-[3.8rem] -rotate-90 text-xs font-bold py-2 text-gray-600">
+                                  {item.percentage ?? ""}
+                                </small>
+                                <BsArrowDown size={30} />
+                              </>
+                            ) : (
+                              <></>
+                            )}
                           </span>{" "}
                         </div>
                       </div>
