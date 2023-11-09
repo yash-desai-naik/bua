@@ -17,7 +17,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         {isAuthenticated ? (
-          <Route path="/dashboard" element={<Dashboard bu={"BU-A"} />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         ) : (
           // <Dashboard />
           <Route path="/" element={<LoginPage />} />

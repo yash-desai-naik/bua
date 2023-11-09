@@ -88,7 +88,7 @@ function getBrightness(hexColor) {
   return (r * 299 + g * 587 + b * 114) / 1000;
 }
 
-function Dashboard({ bu }) {
+function Dashboard() {
   const [uploadedFile, setUploadedFile] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -114,17 +114,25 @@ function Dashboard({ bu }) {
     }[]
   >([]); // Initialize data as an empty array
 
-  const [specificValue, setSpecificValue] = useState(bu); // Replace with your specific value
+  const [buValue, setBUValue] = useState(undefined);
+  const [jobFamilyMapping, setJobFamilyMapping] = useState(undefined);
   const [lineRender, setLineRender] = useState("grid");
   const handleFileChange = (event) => {
     setUploadedFile(event.target.files[0]);
   };
 
-  const handleValueChange = (event) => {
-    setSpecificValue(event.target.value);
+  const handleBUValueChange = (event) => {
+    if (event.target.value == "") {
+      setBUValue(undefined);
+    } else setBUValue(event.target.value);
+  };
+  const handlejobFamilyMappingChange = (event) => {
+    if (event.target.value == "") {
+      setJobFamilyMapping(undefined);
+    } else setJobFamilyMapping(event.target.value);
   };
 
-  const URL = import.meta.env.VITE_BASE_URL;
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   // const URL = "http://localhost:8000";
 
   const uploadFile = async () => {
@@ -134,15 +142,24 @@ function Dashboard({ bu }) {
 
       try {
         setIsLoading(true);
-        const response = await axios.post(
-          `${URL}/api/process_excel?specific_value=${specificValue}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+
+        const url = new URL(`${BASE_URL}/api/process_excel`);
+
+        // add query parameter bu_filter if not null or undefined
+        if (buValue) {
+          url.searchParams.set("bu_filter", buValue);
+        }
+
+        // add job_family_mapping if not null or undefined
+        if (jobFamilyMapping) {
+          url.searchParams.set("job_family_mapping", jobFamilyMapping);
+        }
+
+        const response = await axios.post(url.toString(), formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         // Assuming the API response is in the expected format
         setData(response.data);
@@ -166,10 +183,18 @@ function Dashboard({ bu }) {
         {/* Create a simple file input field for XLSX file upload */}
         <input type="file" accept=".xlsx" onChange={handleFileChange} />
         <input
-          defaultValue={specificValue}
+          placeholder="BU Filter"
+          defaultValue={buValue}
           type="text"
           className="ring-2 ring-gray-400 rounded"
-          onChange={handleValueChange}
+          onChange={handleBUValueChange}
+        />
+        <input
+          placeholder="Job Family Mapping"
+          defaultValue={jobFamilyMapping}
+          type="text"
+          className="ring-2 ring-gray-400 rounded"
+          onChange={handlejobFamilyMappingChange}
         />
         <button
           onClick={uploadFile}
@@ -180,7 +205,7 @@ function Dashboard({ bu }) {
         <div className="container header ">
           <div className="flex justify-between items-center">
             <h1 className="text-3xl text-green-900 ">
-              Emerging Relativity of roles – SBUs ({specificValue})
+              Emerging Relativity of roles – SBUs ({buValue})
             </h1>
             <div className="legend-outlier flex gap-4">
               <div className="flex-col gap-4 my-2">
