@@ -39,18 +39,47 @@ function getRandomColor(parentId) {
     return colorMap[parentId];
   }
 
-  // Generate a random color with a minimum brightness level
-  const minBrightness = 40; // Adjust this value as needed
+  const minSaturation = 30; // Adjust this value as needed
+  const maxSaturation = 70; // Adjust this value as needed
+
+  const minLightness = 30; // Adjust this value as needed
+  const maxLightness = 70; // Adjust this value as needed
+
   let randomColor;
 
   do {
-    randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
-  } while (getBrightness(randomColor) < minBrightness);
+    const hue = Math.floor(Math.random() * 360);
+    const saturation =
+      Math.floor(Math.random() * (maxSaturation - minSaturation + 1)) +
+      minSaturation;
+    const lightness =
+      Math.floor(Math.random() * (maxLightness - minLightness + 1)) +
+      minLightness;
+
+    randomColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  } while (isTooLight(randomColor) || isWhite(randomColor));
 
   colorMap[parentId] = randomColor;
+  console.log(
+    `%c color ${randomColor}`,
+    `background: ${randomColor}; color:#fff`
+  );
 
   return randomColor;
 }
+
+// Function to check if a color is too light
+function isTooLight(color) {
+  const lightnessThreshold = 60; // Adjust this value as needed
+  const [, , lightness] = color.match(/\d+/g).map(Number);
+  return lightness > lightnessThreshold;
+}
+
+// Function to check if a color is close to white
+function isWhite(color) {
+  return color.toLowerCase() === "white";
+}
+
 // Function to calculate brightness (assuming a hex color)
 function getBrightness(hexColor) {
   const r = parseInt(hexColor.slice(1, 3), 16);
@@ -93,7 +122,7 @@ function Dashboard({ bu }) {
     setSpecificValue(event.target.value);
   };
 
-  const URL = "https://bua-fastapi.onrender.com";
+  const URL = import.meta.env.VITE_BASE_URL;
   // const URL = "http://localhost:8000";
 
   const uploadFile = async () => {
@@ -245,6 +274,7 @@ function Dashboard({ bu }) {
                             // width: "",
                             // zIndex: 49,
                             backgroundColor: "white",
+                            outline: `1px solid ${job.current_grade_color}`,
                             opacity: 0.8,
                             position: "relative",
                             left: "0px",
@@ -261,7 +291,7 @@ function Dashboard({ bu }) {
                               <div
                                 id={job.id}
                                 key={jobIndex}
-                                className={` cursor-pointer w-24 h-full px-2 py-1 ring-gray-600 ring-1 ${
+                                className={` cursor-pointer w-24 h-full px-2 py-1  ${
                                   job.stepGapIcon == "High Step Gap"
                                     ? "!bg-blue-200"
                                     : job.stepGapIcon == "Low Step Gap"
@@ -276,7 +306,10 @@ function Dashboard({ bu }) {
                                 ) : (
                                   <></>
                                 )}
-                                <div className="text-center">
+                                <div
+                                  className="text-center"
+                                  title={`${job.id}/${job.parentId ?? ""}`}
+                                >
                                   <small className=" text-xs">
                                     {job.title}
                                   </small>
@@ -289,13 +322,13 @@ function Dashboard({ bu }) {
                                   <small className="font-bold ">
                                     {job.hayScore}
                                   </small>
+                                  {/* <br />
+                                  <small className="text-xs">{job.id}</small>
+                                  {"/"}
+                                  <small className="text-xs">
+                                    {job.parentId ?? "-"}
+                                  </small> */}
                                 </div>
-                                {/* <br />
-                                <small className="font-bold">{job.id}</small>
-                                {" / "}
-                                <small className="font-bold">
-                                  {job.parentId ?? "-"}
-                                </small> */}
                               </div>
                             </Draggable>
                             <Xarrow
@@ -303,8 +336,8 @@ function Dashboard({ bu }) {
                               end={job.parentId ? job.parentId : undefined} //or an id
                               strokeWidth={1.5}
                               path={lineRender}
-                              // showHead={false}
-                              // showTail={true}
+                              showHead={false}
+                              showTail={true}
                               // curveness={0.8}
                               // color="#0000007f"
                               color={
@@ -324,7 +357,7 @@ function Dashboard({ bu }) {
                               // labels={`${job.parentId} - ${job.parentId}`}
                               startAnchor={"top"}
                               endAnchor={"bottom"}
-                              gridBreak="10%+5"
+                              gridBreak="5%10"
                             />
                           </Xwrapper>
                         </div>
