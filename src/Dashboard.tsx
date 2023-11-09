@@ -269,26 +269,25 @@ function Dashboard({ bu }) {
                         text-xs`}
                     >
                       {item?.uniqueJobs.map((job, jobIndex) => (
-                        <div
-                          style={{
-                            // width: "",
-                            // zIndex: 49,
-                            backgroundColor: "white",
-                            outline: `1px solid ${job.current_grade_color}`,
-                            opacity: 0.8,
-                            position: "relative",
-                            left: "0px",
-                            // bottom: "-24px",
-                            // backgroundColor,
-                            top: `-${job.hayScore * 0.0001}` + "px",
-                          }}
-                        >
+                        <>
                           <Xwrapper>
                             <Draggable
                               onDrag={updateXarrow}
                               onStop={updateXarrow}
                             >
                               <div
+                                style={{
+                                  // width: "",
+                                  // zIndex: 49,
+                                  backgroundColor: "white",
+                                  outline: `1px solid ${job.current_grade_color}`,
+                                  opacity: 0.8,
+                                  position: "relative",
+                                  left: "0px",
+                                  // bottom: "-24px",
+                                  // backgroundColor,
+                                  top: `-${job.hayScore * 0.1}` + "px",
+                                }}
                                 id={job.id}
                                 key={jobIndex}
                                 className={` cursor-pointer w-24 h-full px-2 py-1  ${
@@ -360,7 +359,7 @@ function Dashboard({ bu }) {
                               gridBreak="5%10"
                             />
                           </Xwrapper>
-                        </div>
+                        </>
                       ))}
                     </div>
                   </div>
