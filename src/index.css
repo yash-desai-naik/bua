@@ -3,11 +3,22 @@
 @tailwind utilities;
 
 @layer components {
-  .\?\? {
+  .\?\?\? {
     @apply ring-2 ring-red-400;
   }
 }
 
-body {
+/* body {
   background-color: white;
+} */
+
+html,
+body,
+#root {
+  height: 100%;
+  /* background-color: white; */
+  margin: 0;
+}
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: searchfield-cancel-button;
 }

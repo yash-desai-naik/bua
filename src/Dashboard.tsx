@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tree, TreeNode } from "react-organizational-chart";
 import TreeChart from "./TreeChart";
 import { OrganizationChart } from "primereact/organizationchart";
@@ -15,6 +15,7 @@ import {
 import axios from "axios";
 import Xarrow, { Xwrapper, useXarrow } from "react-xarrows";
 import Draggable from "react-draggable";
+import * as htmlToImage from "html-to-image";
 
 const NegativeOutlierIcon = () => (
   <>
@@ -89,6 +90,29 @@ function getBrightness(hexColor) {
 }
 
 function Dashboard() {
+  const ref = React.createRef(null);
+  const createFileName = (extension = "", ...names) => {
+    if (!extension) {
+      return "";
+    }
+
+    return `${names.join("")}.${extension}`;
+  };
+
+  const takeScreenShot = async (node) => {
+    const dataURI = await htmlToImage.toJpeg(node);
+    return dataURI;
+  };
+
+  const download = (image, { name = "img", extension = "png" } = {}) => {
+    const a = document.createElement("a");
+    a.href = image;
+    a.download = createFileName(extension, name);
+    a.click();
+  };
+
+  const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
+
   const [uploadedFile, setUploadedFile] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -179,35 +203,67 @@ function Dashboard() {
 
   return (
     <>
-      <div className="w-screen container px-1 py-2">
-        {/* Create a simple file input field for XLSX file upload */}
+      {/* Create a simple file input field for XLSX file upload */}
+      <div className="w-screen flex gap-4 py-4 px-4">
         <input type="file" accept=".xlsx" onChange={handleFileChange} />
         <input
+          type="search"
+          list="bu-values"
           placeholder="BU Filter"
           defaultValue={buValue}
           type="text"
-          className="ring-2 ring-gray-400 rounded"
+          className="px-1  ring-2 ring-gray-400 rounded"
           onChange={handleBUValueChange}
         />
+        <datalist id="bu-values">
+          <option value="BU-A" />
+          <option value="BU-B" />
+          <option value="BU-C" />
+          <option value="HO" />
+        </datalist>
         <input
+          type="search"
+          list="job-family"
           placeholder="Job Family Mapping"
           defaultValue={jobFamilyMapping}
           type="text"
-          className="ring-2 ring-gray-400 rounded"
+          className="px-1 ring-2 ring-gray-400 rounded"
           onChange={handlejobFamilyMappingChange}
         />
+        <datalist id="job-family">
+          <option value="HR & Admin." />
+          <option value="Operational Excellence" />
+          <option value="Supply Chain Management" />
+          <option value="HO" />
+        </datalist>
         <button
           onClick={uploadFile}
-          className="ml-2 bg-green-400 rounded px-2 py-1"
+          className="ml-2 bg-green-600 rounded px-2 py-1 text-green-50 w-16"
         >
           Draw
         </button>
-        <div className="container header ">
+        {data.length > 0 ? (
+          <button
+            className="bg-blue-600 py-1 px-2 rounded text-blue-50 w-16"
+            onClick={downloadScreenshot}
+          >
+            Export
+          </button>
+        ) : (
+          <></>
+        )}
+      </div>
+      <section
+        ref={ref}
+        className=" bg-white  w-[200vw] h-[155vh] main-chart-section"
+      >
+        <div className=" header ">
           <div className="flex justify-between items-center">
             <h1 className="text-3xl text-green-900 ">
-              Emerging Relativity of roles – SBUs ({buValue})
+              Emerging Relativity of roles – SBUs ({buValue ?? "All"}) - (
+              {jobFamilyMapping ?? "All"})
             </h1>
-            <div className="legend-outlier flex gap-4">
+            <div className=" mr-32 legend-outlier flex gap-4 scale-[1.5]">
               <div className="flex-col gap-4 my-2">
                 <span className="inline-flex gap-3">
                   <NegativeOutlierIcon />
@@ -243,42 +299,43 @@ function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="container chart-settings py-2 mb-4">
-          {/* dropdown input to select chart lines type "curves" or "lines" */}
-
-          <small className="text-base">Relation lines rendering: </small>
-          <select
-            defaultValue={"grid"}
-            onChange={(e) => setLineRender(e.target.value)}
-            className="ring-1 ring-gray-400 rounded"
-          >
-            <option value="smooth">Curves</option>
-            <option selected value="grid">
-              Lines
-            </option>
-          </select>
-        </div>
-
-        <section className="container h-screen chart" id="content-id">
+        <>
+          {/* <div className=" chart-settings py-2 mb-4">
+            <small className="text-base">Relation lines rendering: </small>
+            <select
+              defaultValue={"grid"}
+              onChange={(e) => setLineRender(e.target.value)}
+              className="ring-1 ring-gray-400 rounded"
+            >
+              <option value="smooth">Curves</option>
+              <option selected value="grid">
+                Lines
+              </option>
+            </select>
+          </div> */}
+        </>
+        <section className=" chart" id="content-id">
           {isLoading ? (
             "Loading..."
           ) : isError ? (
             <div className="text-red-500 text-center">{errorMessage}</div>
           ) : (
-            <div className=" w-screen">
+            <div className=" w-screen ">
               {data.map((item, index) => (
-                <div className="relative">
-                  <div key={index} className=" w-full flex items-center gap-4">
-                    <div className="bg-white left-labels left-0 sticky z-50">
-                      <div className="bg-white  w-full z-50">
-                        <div className="bg-white  h-full  flex items-center justify-center">
+                <div
+                  className={` border-b-[.5px] border-gray-300 relative py-7`}
+                >
+                  <div key={index} className=" w-full flex  gap-4">
+                    <div className="#bg-white left-labels left-0 sticky z-50">
+                      <div className="#bg-white  w-full z-50">
+                        <div className="#bg-white    flex items-center justify-center">
                           <small className="  -rotate-90   font-bold   ">
                             {item.band}
                           </small>
                           <small className="-ml-4 w-[8rem] -rotate-90 text-xs text-center font-bold text-gray-600">
                             {item.range}
                           </small>
-                          <span className="-ml-5 h-36 w-full text-gray-300 flex flex-col   justify-between">
+                          <span className="-ml-5  h-36 w-full text-gray-300 flex flex-col   justify-between">
                             {item.percentage ? (
                               <>
                                 <BsArrowUp size={30} />
@@ -294,36 +351,48 @@ function Dashboard() {
                         </div>
                       </div>
                     </div>
-
                     {/* <pre className="bg-red-200">{JSON.stringify(item)}</pre> */}
                     <div
-                      className={` w-screen flex
-                       justify-around
-                        text-xs`}
+                      style={{
+                        bottom: `-50px`,
+                      }}
+                      className={` w-screen relative  flex
+                        justify-around
+                          text-xs`}
                     >
                       {item?.uniqueJobs.map((job, jobIndex) => (
                         <>
                           <Xwrapper>
                             <Draggable
+                              // axis="x"
                               onDrag={updateXarrow}
                               onStop={updateXarrow}
                             >
                               <div
                                 style={{
                                   // width: "",
+                                  height: "116px",
                                   // zIndex: 49,
                                   backgroundColor: "white",
                                   outline: `1px solid ${job.current_grade_color}`,
                                   opacity: 0.8,
                                   position: "relative",
-                                  left: "0px",
+                                  left:
+                                    item.uniqueJobs.length >= 100
+                                      ? "6200px"
+                                      : item.uniqueJobs.length >= 70
+                                      ? "1800px"
+                                      : item.uniqueJobs.length >= 30
+                                      ? "500px"
+                                      : "0px",
                                   // bottom: "-24px",
                                   // backgroundColor,
-                                  top: `-${job.hayScore * 0.1}` + "px",
+                                  bottom: `${job.hayScore * 0.063}` + "px",
+                                  // transform: `translate(0px,30%)`,
                                 }}
                                 id={job.id}
                                 key={jobIndex}
-                                className={` cursor-pointer w-24 h-full px-2 py-1  ${
+                                className={` flex flex-col justify-center cursor-pointer w-24  px-2 py-1  ${
                                   job.stepGapIcon == "High Step Gap"
                                     ? "!bg-blue-200"
                                     : job.stepGapIcon == "Low Step Gap"
@@ -355,11 +424,11 @@ function Dashboard() {
                                     {job.hayScore}
                                   </small>
                                   {/* <br />
-                                  <small className="text-xs">{job.id}</small>
-                                  {"/"}
-                                  <small className="text-xs">
-                                    {job.parentId ?? "-"}
-                                  </small> */}
+                                    <small className="text-xs">{job.id}</small>
+                                    {"/"}
+                                    <small className="text-xs">
+                                      {job.parentId ?? "-"}
+                                    </small> */}
                                 </div>
                               </div>
                             </Draggable>
@@ -397,14 +466,14 @@ function Dashboard() {
                     </div>
                   </div>
                   {/* ...dotted line... */}
-                  <hr className="my-2 border-gray-200" />
+                  {/* <hr className="my-2 border-gray-200" /> */}
                 </div>
               ))}
             </div>
           )}
         </section>
         {/* <JobChart data={data} /> */}
-      </div>
+      </section>
     </>
   );
 }
