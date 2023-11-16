@@ -13,7 +13,7 @@ const LoginPage: React.FC = () => {
   const handleLogin = () => {
     console.log(username, password);
     if (username === "admin" && password === "admin") {
-      login();
+      login({ username });
       // Credentials are correct, navigate to the dashboard
       navigate("/dashboard");
     } else {
