@@ -17,6 +17,9 @@ import Xarrow, { Xwrapper, useXarrow } from "react-xarrows";
 import Draggable from "react-draggable";
 import * as htmlToImage from "html-to-image";
 
+import exportAsImage from "./utils/exportAsImage";
+
+
 const NegativeOutlierIcon = () => (
   <>
     <span className="text-red-500">
@@ -113,11 +116,15 @@ function Dashboard() {
 
   const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
 
+  const exportRef = React.useRef();
+
   const [uploadedFile, setUploadedFile] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+
 
   const [data, setData] = useState<
     {
@@ -140,6 +147,7 @@ function Dashboard() {
 
   const [buValue, setBUValue] = useState(undefined);
   const [jobFamilyMapping, setJobFamilyMapping] = useState(undefined);
+  const [level, setLevel] = useState(undefined)
   const [lineRender, setLineRender] = useState("grid");
   const handleFileChange = (event) => {
     setUploadedFile(event.target.files[0]);
@@ -154,6 +162,11 @@ function Dashboard() {
     if (event.target.value == "") {
       setJobFamilyMapping(undefined);
     } else setJobFamilyMapping(event.target.value);
+  };
+  const handleLevelChange = (event) => {
+    if (event.target.value == "") {
+      setLevel(undefined);
+    } else setLevel(event.target.value);
   };
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -177,6 +190,11 @@ function Dashboard() {
         // add job_family_mapping if not null or undefined
         if (jobFamilyMapping) {
           url.searchParams.set("job_family_mapping", jobFamilyMapping);
+        }
+
+        if (level) {
+          url.searchParams.set("level", level);
+
         }
 
         const response = await axios.post(url.toString(), formData, {
@@ -236,6 +254,26 @@ function Dashboard() {
           <option value="Supply Chain Management" />
           <option value="HO" />
         </datalist>
+        <input
+          type="search"
+          list="levels"
+          placeholder="Level"
+          // defaultValue={""}
+          type="text"
+          // min={1}
+          // max={7}
+          className="px-1 ring-2 ring-gray-400 rounded"
+          onChange={handleLevelChange}
+        />
+        <datalist id="levels">
+          <option value="1" label="n-1"></option>
+          <option value="2" label="n-2"></option>
+          <option value="3" label="n-3"></option>
+          <option value="4" label="n-4"></option>
+          <option value="5" label="n-5"></option>
+          <option value="6" label="n-6"></option>
+          <option value="7" label="n-7"></option>
+        </datalist>
         <button
           onClick={uploadFile}
           className="ml-2 bg-green-600 rounded px-2 py-1 text-green-50 w-16"
@@ -243,21 +281,27 @@ function Dashboard() {
           Draw
         </button>
         {data.length > 0 ? (
-          <button
-            className="bg-blue-600 py-1 px-2 rounded text-blue-50 w-16"
-            onClick={downloadScreenshot}
-          >
-            Export
-          </button>
+          <>
+            <button
+              className="bg-blue-600 py-1 px-2 rounded text-blue-50 w-16"
+              onClick={downloadScreenshot}
+            >
+              Export
+            </button>
+            <button onClick={() => exportAsImage(exportRef.current, "test")}>
+              Capture Image
+            </button>
+          </>
         ) : (
           <></>
         )}
       </div>
       <section
-        ref={ref}
+        // ref={ref}
+        ref={exportRef}
         className=" bg-white  w-[200vw] h-[155vh] main-chart-section"
       >
-        <div className=" header ">
+        <div className=" header " >
           <div className="flex justify-between items-center">
             <h1 className="text-3xl text-green-900 ">
               Emerging Relativity of roles – SBUs ({buValue ?? "All"}) - (
@@ -381,10 +425,10 @@ function Dashboard() {
                                     item.uniqueJobs.length >= 100
                                       ? "6200px"
                                       : item.uniqueJobs.length >= 70
-                                      ? "1800px"
-                                      : item.uniqueJobs.length >= 30
-                                      ? "500px"
-                                      : "0px",
+                                        ? "1800px"
+                                        : item.uniqueJobs.length >= 30
+                                          ? "500px"
+                                          : "0px",
                                   // bottom: "-24px",
                                   // backgroundColor,
                                   bottom: `${job.hayScore * 0.063}` + "px",
@@ -392,13 +436,12 @@ function Dashboard() {
                                 }}
                                 id={job.id}
                                 key={jobIndex}
-                                className={` flex flex-col justify-center cursor-pointer w-24  px-2 py-1  ${
-                                  job.stepGapIcon == "High Step Gap"
-                                    ? "!bg-blue-200"
-                                    : job.stepGapIcon == "Low Step Gap"
+                                className={` flex flex-col justify-center cursor-pointer w-24  px-2 py-1  ${job.stepGapIcon == "High Step Gap"
+                                  ? "!bg-blue-200"
+                                  : job.stepGapIcon == "Low Step Gap"
                                     ? "!bg-yellow-200"
                                     : ""
-                                }`}
+                                  }`}
                               >
                                 {job.outlierIcon === -1 ? (
                                   <NegativeOutlierIcon />

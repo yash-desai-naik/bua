@@ -19,6 +19,7 @@ body,
   /* background-color: white; */
   margin: 0;
 }
+
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: searchfield-cancel-button;
 }
