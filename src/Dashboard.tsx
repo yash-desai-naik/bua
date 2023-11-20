@@ -103,7 +103,7 @@ function Dashboard() {
   };
 
   const takeScreenShot = async (node) => {
-    const dataURI = await htmlToImage.toJpeg(node);
+    const dataURI = await htmlToImage.toPng(node, { skipAutoScale: false, quality: 1, pixelRatio: 2 });
     return dataURI;
   };
 
@@ -288,18 +288,19 @@ function Dashboard() {
             >
               Export
             </button>
-            <button onClick={() => exportAsImage(exportRef.current, "test")}>
+            {/* <button onClick={() => exportAsImage(exportRef.current, "test")}>
               Capture Image
-            </button>
+            </button> */}
           </>
         ) : (
           <></>
         )}
       </div>
       <section
-        // ref={ref}
-        ref={exportRef}
-        className=" bg-white  w-[200vw] h-[155vh] main-chart-section"
+        ref={ref}
+        // ref={exportRef}
+        className=" overflow-x-auto #bg-white  main-chart-section"
+        style={{ backgroundColor: null }}
       >
         <div className=" header " >
           <div className="flex justify-between items-center">

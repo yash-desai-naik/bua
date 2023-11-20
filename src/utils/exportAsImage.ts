@@ -5,10 +5,10 @@ import html2canvas from "html2canvas";
 const exportAsImage = async (element, imageFileName) => {
     const html = document.getElementsByTagName("html")[0];
     const body = document.getElementsByTagName("body")[0];
-    // let htmlWidth = html.clientWidth;
-    // let bodyWidth = body.clientWidth;
-    let htmlWidth = "300vw";
-    let bodyWidth = "400vw";
+    let htmlWidth = html.clientWidth;
+    let bodyWidth = body.clientWidth;
+    // let htmlWidth = "300vw";
+    // let bodyWidth = "400vw";
 
     const newWidth = element.scrollWidth - element.clientWidth;
 
