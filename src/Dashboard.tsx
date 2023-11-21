@@ -16,9 +16,24 @@ import axios from "axios";
 import Xarrow, { Xwrapper, useXarrow } from "react-xarrows";
 import Draggable from "react-draggable";
 import * as htmlToImage from "html-to-image";
+import Select from "react-select";
 
 import exportAsImage from "./utils/exportAsImage";
 
+{
+  /* <option value="BU-A" />
+<option value="BU-B" />
+<option value="BU-C" />
+<option value="HO" /> */
+}
+
+// Array of all BU
+const optionList = [
+  { value: "BU-A", label: "BU-A" },
+  { value: "BU-B", label: "BU-B" },
+  { value: "BU-C", label: "BU-C" },
+  { value: "HO", label: "HO" },
+];
 
 const NegativeOutlierIcon = () => (
   <>
@@ -103,7 +118,9 @@ function Dashboard() {
   };
 
   const takeScreenShot = async (node) => {
-    const dataURI = await htmlToImage.toPng(node, { skipAutoScale: false, quality: 1, pixelRatio: 2 });
+    console.log("node", node);
+
+    const dataURI = await htmlToImage.toPng(node);
     return dataURI;
   };
 
@@ -124,8 +141,6 @@ function Dashboard() {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-
-
   const [data, setData] = useState<
     {
       band: string;
@@ -145,18 +160,25 @@ function Dashboard() {
     }[]
   >([]); // Initialize data as an empty array
 
-  const [buValue, setBUValue] = useState(undefined);
+  const [buValue, setBUValue] = useState();
   const [jobFamilyMapping, setJobFamilyMapping] = useState(undefined);
-  const [level, setLevel] = useState(undefined)
+  const [level, setLevel] = useState(undefined);
   const [lineRender, setLineRender] = useState("grid");
   const handleFileChange = (event) => {
     setUploadedFile(event.target.files[0]);
   };
 
   const handleBUValueChange = (event) => {
-    if (event.target.value == "") {
-      setBUValue(undefined);
-    } else setBUValue(event.target.value);
+    // if (event.target.value == "") {
+    //   setBUValue(undefined);
+    // } else setBUValue(event.target.value);
+
+    // setBUValue(event);
+
+    console.log("event", event);
+
+    // event.forEach((value) => setBUValue(value.value));
+    setBUValue(event.map((value) => value.value));
   };
   const handlejobFamilyMappingChange = (event) => {
     if (event.target.value == "") {
@@ -184,7 +206,10 @@ function Dashboard() {
 
         // add query parameter bu_filter if not null or undefined
         if (buValue) {
-          url.searchParams.set("bu_filter", buValue);
+          // url.searchParams.set("bu_filter", buValue);
+
+          // set as comma separated string
+          url.searchParams.set("bu_filter", buValue.join(","));
         }
 
         // add job_family_mapping if not null or undefined
@@ -194,7 +219,6 @@ function Dashboard() {
 
         if (level) {
           url.searchParams.set("level", level);
-
         }
 
         const response = await axios.post(url.toString(), formData, {
@@ -224,13 +248,13 @@ function Dashboard() {
       {/* Create a simple file input field for XLSX file upload */}
       <div className="w-screen flex gap-4 py-4 px-4">
         <input type="file" accept=".xlsx" onChange={handleFileChange} />
-        <input
+        {/* <input
           type="search"
           list="bu-values"
           placeholder="BU Filter"
           defaultValue={buValue}
           type="text"
-          className="px-1  ring-2 ring-gray-400 rounded"
+          className="px-1  ring-2 ring-gray-700 focus:ring-black "
           onChange={handleBUValueChange}
         />
         <datalist id="bu-values">
@@ -238,14 +262,28 @@ function Dashboard() {
           <option value="BU-B" />
           <option value="BU-C" />
           <option value="HO" />
-        </datalist>
+        </datalist> */}
+        <>
+          <Select
+            options={optionList}
+            placeholder="Select color"
+            // value={buValue}
+            defaultValue={buValue?.map((v, index) => ({
+              value: v,
+              label: v,
+            }))}
+            onChange={handleBUValueChange}
+            isSearchable={true}
+            isMulti
+          />
+        </>
         <input
           type="search"
           list="job-family"
           placeholder="Job Family Mapping"
           defaultValue={jobFamilyMapping}
           type="text"
-          className="px-1 ring-2 ring-gray-400 rounded"
+          className="px-1 ring-2 ring-gray-700 focus:ring-black "
           onChange={handlejobFamilyMappingChange}
         />
         <datalist id="job-family">
@@ -262,7 +300,7 @@ function Dashboard() {
           type="text"
           // min={1}
           // max={7}
-          className="px-1 ring-2 ring-gray-400 rounded"
+          className="px-1 ring-2 ring-gray-700 focus:ring-black "
           onChange={handleLevelChange}
         />
         <datalist id="levels">
@@ -276,14 +314,14 @@ function Dashboard() {
         </datalist>
         <button
           onClick={uploadFile}
-          className="ml-2 bg-green-600 rounded px-2 py-1 text-green-50 w-16"
+          className="ml-2 bg-black  px-2 py-1 text-gray-100 w-16 active:bg-gray-900 active:scale-105 hover:shadow-xl"
         >
           Draw
         </button>
         {data.length > 0 ? (
           <>
             <button
-              className="bg-blue-600 py-1 px-2 rounded text-blue-50 w-16"
+              className="bg-black py-1 px-2  text-gray-100 w-16 active:bg-gray-900 active:scale-105 hover:shadow-xl"
               onClick={downloadScreenshot}
             >
               Export
@@ -302,44 +340,46 @@ function Dashboard() {
         className=" overflow-x-auto #bg-white  main-chart-section"
         style={{ backgroundColor: null }}
       >
-        <div className=" header " >
-          <div className="flex justify-between items-center">
-            <h1 className="text-3xl text-green-900 ">
+        <div className=" header ">
+          <div className=" justify-between items-center">
+            <h1 className="text-5xl text-green-900 ">
               Emerging Relativity of roles – SBUs ({buValue ?? "All"}) - (
               {jobFamilyMapping ?? "All"})
             </h1>
-            <div className=" mr-32 legend-outlier flex gap-4 scale-[1.5]">
-              <div className="flex-col gap-4 my-2">
-                <span className="inline-flex gap-3">
-                  <NegativeOutlierIcon />
-                  <small className="text-xs">Negative Outlier</small>
-                </span>
-                <span className="flex gap-3">
-                  <PositiveOutlierIcon />
-                  <small className="text-xs">Positive Outlier</small>
-                </span>
-              </div>
-              <div className="flex-col gap-2">
-                <span className=" inline-flex  gap-2 my-2">
-                  <div style={{ width: "20px" }} className=" bg-blue-200">
-                    {" "}
-                  </div>
-                  <small className="text-xs">High Step-Gap</small>
-                </span>
-                <span className="flex gap-2">
-                  <div style={{ width: "20px" }} className=" bg-yellow-200" />
-                  <small className="text-xs">Low Step-Gap</small>
-                </span>
-              </div>
-              <div className="flex-col gap-2 my-2">
-                <span className="text-green-800 inline-flex  gap-2">
-                  <BsFillBookmarkFill />
-                  <small className="text-xs">High Span of Control</small>
-                </span>
-                <span className="text-red-800 flex gap-2">
-                  <BsFillBookmarkFill />
-                  <small className="text-xs">Low Span of Control</small>
-                </span>
+            <div className="  mt-4 float-right">
+              <div className=" mr-32 legend-outlier flex gap-4 scale-[1.5]">
+                <div className="flex-col gap-4 my-2">
+                  <span className="inline-flex gap-3">
+                    <NegativeOutlierIcon />
+                    <small className="text-xs">Negative Outlier</small>
+                  </span>
+                  <span className="flex gap-3">
+                    <PositiveOutlierIcon />
+                    <small className="text-xs">Positive Outlier</small>
+                  </span>
+                </div>
+                <div className="flex-col gap-2">
+                  <span className=" inline-flex  gap-2 my-2">
+                    <div style={{ width: "20px" }} className=" bg-blue-200">
+                      {" "}
+                    </div>
+                    <small className="text-xs">High Step-Gap</small>
+                  </span>
+                  <span className="flex gap-2">
+                    <div style={{ width: "20px" }} className=" bg-yellow-200" />
+                    <small className="text-xs">Low Step-Gap</small>
+                  </span>
+                </div>
+                <div className="flex-col gap-2 my-2">
+                  <span className="text-green-800 inline-flex  gap-2">
+                    <BsFillBookmarkFill />
+                    <small className="text-xs">High Span of Control</small>
+                  </span>
+                  <span className="text-red-800 flex gap-2">
+                    <BsFillBookmarkFill />
+                    <small className="text-xs">Low Span of Control</small>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -373,18 +413,18 @@ function Dashboard() {
                   <div key={index} className=" w-full flex  gap-4">
                     <div className="#bg-white left-labels left-0 sticky z-50">
                       <div className="#bg-white  w-full z-50">
-                        <div className="#bg-white    flex items-center justify-center">
-                          <small className="  -rotate-90   font-bold   ">
+                        <div className="band-label #bg-white    flex items-center justify-center">
+                          <small className=" text-3xl   -rotate-90   font-bold   ">
                             {item.band}
                           </small>
-                          <small className="-ml-4 w-[8rem] -rotate-90 text-xs text-center font-bold text-gray-600">
+                          <small className="text-2xl -ml-6 w-[16rem] -rotate-90 text-center font-bold text-gray-600">
                             {item.range}
                           </small>
-                          <span className="-ml-5  h-36 w-full text-gray-300 flex flex-col   justify-between">
+                          <span className="  -ml-5  h-36 w-full text-gray-300 flex flex-col   justify-between">
                             {item.percentage ? (
                               <>
                                 <BsArrowUp size={30} />
-                                <small className=" -ml-3  text-center w-[3.8rem] -rotate-90 text-xs font-bold py-2 text-gray-600">
+                                <small className="text-xl -ml-4  text-center w-[3.8rem] -rotate-90 font-bold py-2 text-gray-600">
                                   {item.percentage ?? ""}
                                 </small>
                                 <BsArrowDown size={30} />
@@ -415,6 +455,7 @@ function Dashboard() {
                             >
                               <div
                                 style={{
+                                  // fontSize: "2rem",
                                   // width: "",
                                   height: "116px",
                                   // zIndex: 49,
@@ -426,10 +467,10 @@ function Dashboard() {
                                     item.uniqueJobs.length >= 100
                                       ? "6200px"
                                       : item.uniqueJobs.length >= 70
-                                        ? "1800px"
-                                        : item.uniqueJobs.length >= 30
-                                          ? "500px"
-                                          : "0px",
+                                      ? "1800px"
+                                      : item.uniqueJobs.length >= 30
+                                      ? "500px"
+                                      : "0px",
                                   // bottom: "-24px",
                                   // backgroundColor,
                                   bottom: `${job.hayScore * 0.063}` + "px",
@@ -437,12 +478,13 @@ function Dashboard() {
                                 }}
                                 id={job.id}
                                 key={jobIndex}
-                                className={` flex flex-col justify-center cursor-pointer w-24  px-2 py-1  ${job.stepGapIcon == "High Step Gap"
-                                  ? "!bg-blue-200"
-                                  : job.stepGapIcon == "Low Step Gap"
+                                className={` flex flex-col justify-center cursor-pointer w-48=  px-2 py-1  ${
+                                  job.stepGapIcon == "High Step Gap"
+                                    ? "!bg-blue-200"
+                                    : job.stepGapIcon == "Low Step Gap"
                                     ? "!bg-yellow-200"
                                     : ""
-                                  }`}
+                                }`}
                               >
                                 {job.outlierIcon === -1 ? (
                                   <NegativeOutlierIcon />
@@ -455,16 +497,16 @@ function Dashboard() {
                                   className="text-center"
                                   title={`${job.id}/${job.parentId ?? ""}`}
                                 >
-                                  <small className=" text-xs">
+                                  <small className=" text-2xl">
                                     {job.title}
                                   </small>
                                   <br />
-                                  <small className="">
+                                  <small className="text-2xl">
                                     {" "}
                                     ({job.current_grade})
                                   </small>
                                   <br />
-                                  <small className="font-bold ">
+                                  <small className="font-bold text-2xl">
                                     {job.hayScore}
                                   </small>
                                   {/* <br />

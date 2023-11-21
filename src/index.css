@@ -4,7 +4,7 @@
 
 @layer components {
   .\?\?\? {
-    @apply ring-2 ring-red-400;
+    @apply ring-4 ring-red-600 animate-pulse;
   }
 }
 

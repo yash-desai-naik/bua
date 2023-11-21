@@ -23,6 +23,7 @@
     "react-icons": "^4.11.0",
     "react-organizational-chart": "^2.2.1",
     "react-router-dom": "^6.17.0",
+    "react-select": "^5.8.0",
     "react-to-pdf": "^1.0.1",
     "react-xarrows": "^2.0.2",
     "zustand": "^4.4.6"
