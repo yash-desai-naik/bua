@@ -28,16 +28,35 @@ import exportAsImage from "./utils/exportAsImage";
 }
 
 // Array of all BU
-const optionList = [
+const BUoptionList = [
   { value: "BU-A", label: "BU-A" },
   { value: "BU-B", label: "BU-B" },
   { value: "BU-C", label: "BU-C" },
   { value: "HO", label: "HO" },
 ];
 
+const jobFamilyOptionList = [
+  { value: "HR & Admin.", label: "HR & Admin." },
+  { value: "Operational Excellence", label: "Operational Excellence" },
+  { value: "Supply Chain Management", label: "Supply Chain Management" },
+  { value: "HO", label: "HO" },
+];
+
+const levelList = [
+  { value: undefined, label: "All" },
+  { value: "1", label: "n-1" },
+  { value: "2", label: "n-2" },
+  { value: "3", label: "n-3" },
+  { value: "4", label: "n-4" },
+  { value: "5", label: "n-5" },
+  { value: "6", label: "n-6" },
+  { value: "7", label: "n-7" },
+  { value: "8", label: "n-8" },
+];
+
 const NegativeOutlierIcon = () => (
   <>
-    <span className="text-red-500">
+    <span className="text-red-500 ">
       <BsFillCaretDownFill />
     </span>
   </>
@@ -117,7 +136,7 @@ function Dashboard() {
     return `${names.join("")}.${extension}`;
   };
 
-  const takeScreenShot = async (node) => {
+  const takeScreenShot = async (node: HTMLElement) => {
     console.log("node", node);
 
     const dataURI = await htmlToImage.toPng(node);
@@ -160,9 +179,11 @@ function Dashboard() {
     }[]
   >([]); // Initialize data as an empty array
 
-  const [buValue, setBUValue] = useState();
-  const [jobFamilyMapping, setJobFamilyMapping] = useState(undefined);
-  const [level, setLevel] = useState(undefined);
+  const [buValue, setBUValue] = useState<
+    { value: String; label: string }[] | undefined
+  >();
+  const [jobFamilyMapping, setJobFamilyMapping] = useState();
+  const [level, setLevel] = useState(levelList[0]);
   const [lineRender, setLineRender] = useState("grid");
   const handleFileChange = (event) => {
     setUploadedFile(event.target.files[0]);
@@ -175,20 +196,24 @@ function Dashboard() {
 
     // setBUValue(event);
 
-    console.log("event", event);
+    // console.log("event", event);
 
     // event.forEach((value) => setBUValue(value.value));
     setBUValue(event.map((value) => value.value));
   };
   const handlejobFamilyMappingChange = (event) => {
-    if (event.target.value == "") {
-      setJobFamilyMapping(undefined);
-    } else setJobFamilyMapping(event.target.value);
+    // if (event.target.value == "") {
+    //   setJobFamilyMapping(undefined);
+    // } else setJobFamilyMapping(event.target.value);
+    console.log("event", event);
+    setJobFamilyMapping(event.map((value) => value.value));
   };
   const handleLevelChange = (event) => {
-    if (event.target.value == "") {
-      setLevel(undefined);
-    } else setLevel(event.target.value);
+    // if (event.target.value == "") {
+    //   setLevel(undefined);
+    // } else setLevel(event.target.value);
+    console.log("event:level", event);
+    setLevel(event.value);
   };
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -205,7 +230,7 @@ function Dashboard() {
         const url = new URL(`${BASE_URL}/api/process_excel`);
 
         // add query parameter bu_filter if not null or undefined
-        if (buValue) {
+        if (buValue && buValue.length > 0) {
           // url.searchParams.set("bu_filter", buValue);
 
           // set as comma separated string
@@ -213,12 +238,18 @@ function Dashboard() {
         }
 
         // add job_family_mapping if not null or undefined
-        if (jobFamilyMapping) {
-          url.searchParams.set("job_family_mapping", jobFamilyMapping);
+        if (jobFamilyMapping && jobFamilyMapping.length > 0) {
+          // url.searchParams.set("job_family_mapping", jobFamilyMapping);
+          url.searchParams.set(
+            "job_family_mapping",
+            jobFamilyMapping.join(",")
+          );
         }
 
-        if (level) {
+        if (level && level.length > 0) {
           url.searchParams.set("level", level);
+
+          // url.searchParams.set("level", level.join(","));
         }
 
         const response = await axios.post(url.toString(), formData, {
@@ -246,7 +277,7 @@ function Dashboard() {
   return (
     <>
       {/* Create a simple file input field for XLSX file upload */}
-      <div className="w-screen flex gap-4 py-4 px-4">
+      <div className=" flex gap-4 py-4 px-4">
         <input type="file" accept=".xlsx" onChange={handleFileChange} />
         {/* <input
           type="search"
@@ -265,8 +296,8 @@ function Dashboard() {
         </datalist> */}
         <>
           <Select
-            options={optionList}
-            placeholder="Select color"
+            options={BUoptionList}
+            placeholder="Select BU"
             // value={buValue}
             defaultValue={buValue?.map((v, index) => ({
               value: v,
@@ -277,7 +308,7 @@ function Dashboard() {
             isMulti
           />
         </>
-        <input
+        {/* <input
           type="search"
           list="job-family"
           placeholder="Job Family Mapping"
@@ -291,8 +322,22 @@ function Dashboard() {
           <option value="Operational Excellence" />
           <option value="Supply Chain Management" />
           <option value="HO" />
-        </datalist>
-        <input
+        </datalist> */}
+
+        <Select
+          options={jobFamilyOptionList}
+          placeholder="Select Job Family Mapping"
+          // value={buValue}
+          defaultValue={jobFamilyMapping?.map((v, index) => ({
+            value: v,
+            label: v,
+          }))}
+          onChange={handlejobFamilyMappingChange}
+          isSearchable={true}
+          isMulti
+        />
+
+        {/* <input
           type="search"
           list="levels"
           placeholder="Level"
@@ -311,7 +356,23 @@ function Dashboard() {
           <option value="5" label="n-5"></option>
           <option value="6" label="n-6"></option>
           <option value="7" label="n-7"></option>
-        </datalist>
+        </datalist> */}
+
+        <Select
+          options={levelList}
+          placeholder="Select Level"
+          // value={buValue}
+          // defaultValue={level?.map((v, index) => ({
+          //   value: v,
+          //   label: v,
+          // }))}
+          defaultValue={level}
+          // def
+          onChange={handleLevelChange}
+          // isClearable={true}
+          // isSearchable={true}
+          // isMulti
+        />
         <button
           onClick={uploadFile}
           className="ml-2 bg-black  px-2 py-1 text-gray-100 w-16 active:bg-gray-900 active:scale-105 hover:shadow-xl"
@@ -337,12 +398,12 @@ function Dashboard() {
       <section
         ref={ref}
         // ref={exportRef}
-        className=" overflow-x-auto #bg-white  main-chart-section"
+        className="w-screen overflow-x-visible overflow-y-hidden #bg-white  main-chart-section"
         style={{ backgroundColor: null }}
       >
         <div className=" header ">
           <div className=" justify-between items-center">
-            <h1 className="text-5xl text-green-900 ">
+            <h1 className="text-4xl text-green-900 ">
               Emerging Relativity of roles – SBUs ({buValue ?? "All"}) - (
               {jobFamilyMapping ?? "All"})
             </h1>
@@ -457,7 +518,7 @@ function Dashboard() {
                                 style={{
                                   // fontSize: "2rem",
                                   // width: "",
-                                  height: "116px",
+                                  // height: "116px",
                                   // zIndex: 49,
                                   backgroundColor: "white",
                                   outline: `1px solid ${job.current_grade_color}`,
@@ -478,7 +539,7 @@ function Dashboard() {
                                 }}
                                 id={job.id}
                                 key={jobIndex}
-                                className={` flex flex-col justify-center cursor-pointer w-48=  px-2 py-1  ${
+                                className={` flex flex-col justify-around cursor-pointer w-56 h-40  px-2 py-1  ${
                                   job.stepGapIcon == "High Step Gap"
                                     ? "!bg-blue-200"
                                     : job.stepGapIcon == "Low Step Gap"
@@ -486,27 +547,27 @@ function Dashboard() {
                                     : ""
                                 }`}
                               >
-                                {job.outlierIcon === -1 ? (
-                                  <NegativeOutlierIcon />
-                                ) : job.outlierIcon === 1 ? (
-                                  <PositiveOutlierIcon />
-                                ) : (
-                                  <></>
-                                )}
                                 <div
                                   className="text-center"
                                   title={`${job.id}/${job.parentId ?? ""}`}
                                 >
-                                  <small className=" text-2xl">
+                                  {job.outlierIcon === -1 ? (
+                                    <NegativeOutlierIcon />
+                                  ) : job.outlierIcon === 1 ? (
+                                    <PositiveOutlierIcon />
+                                  ) : (
+                                    <></>
+                                  )}
+                                  <small className=" text-xl">
                                     {job.title}
                                   </small>
                                   <br />
-                                  <small className="text-2xl">
+                                  <small className="text-xl">
                                     {" "}
                                     ({job.current_grade})
                                   </small>
                                   <br />
-                                  <small className="font-bold text-2xl">
+                                  <small className="font-bold text-xl">
                                     {job.hayScore}
                                   </small>
                                   {/* <br />
