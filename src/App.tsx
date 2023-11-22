@@ -3,7 +3,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./Login";
 import { useLoginStore } from "./loginStore";
-import Dashboard from "./Dashboard";
+// import Dashboard from "./Dashboard";
+import Dashboard from "./Dash";
 
 function App() {
   const isAuthenticated = useLoginStore((state) => state.isAuthenticated);

@@ -4,22 +4,13 @@
 
 @layer components {
   .\?\?\? {
-    @apply ring-4 ring-red-600 animate-pulse;
+    @apply ring-2 ring-green-400 animate-pulse;
   }
 }
-
-/* body {
-  background-color: white;
-} */
 
 html,
 body,
 #root {
   height: 100%;
-  /* background-color: white; */
   margin: 0;
-}
-
-input[type="search"]::-webkit-search-cancel-button {
-  -webkit-appearance: searchfield-cancel-button;
 }

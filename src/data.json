@@ -1,0 +1,420 @@
+[
+    {
+        "band": "L0",
+        "range": "2001 and above",
+        "percentage": null,
+        "uniqueJobs": []
+    },
+    {
+        "band": "L1",
+        "range": "1350-2000",
+        "percentage": "49%",
+        "uniqueJobs": []
+    },
+    {
+        "band": "L2",
+        "range": "950-1359",
+        "percentage": "44%",
+        "uniqueJobs": []
+    },
+    {
+        "band": "L3",
+        "range": "682-949",
+        "percentage": "40%",
+        "uniqueJobs": []
+    },
+    {
+        "band": "L4",
+        "range": "502-681",
+        "percentage": "36%",
+        "uniqueJobs": []
+    },
+    {
+        "band": "L5",
+        "range": "392-501",
+        "percentage": "28%",
+        "uniqueJobs": [
+            {
+                "title": "Site Lead-Safety & Health - BU-A",
+                "current_band": "L4",
+                "current_grade": "L2A",
+                "current_grade_color": "rgb(40, 204, 144)",
+                "sub_job_family": "Safety & Health",
+                "hayScore": 393,
+                "outlierIcon": -1,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB521",
+                "parentId": null
+            }
+        ]
+    },
+    {
+        "band": "L6",
+        "range": "307-391",
+        "percentage": "28%",
+        "uniqueJobs": [
+            {
+                "title": "Lead-Process Safety",
+                "current_band": "L5",
+                "current_grade": "M1",
+                "current_grade_color": "rgb(204, 161, 40)",
+                "sub_job_family": "Safety & Health",
+                "hayScore": 333,
+                "outlierIcon": -1,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB495",
+                "parentId": null
+            },
+            {
+                "title": "Lead-Process Safety",
+                "current_band": "L6",
+                "current_grade": "M3",
+                "current_grade_color": "rgb(123, 204, 40)",
+                "sub_job_family": "Safety & Health",
+                "hayScore": 333,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB496",
+                "parentId": null
+            },
+            {
+                "title": "Site Lead-Environment",
+                "current_band": "L6",
+                "current_grade": "M4",
+                "current_grade_color": "rgb(123, 204, 40)",
+                "sub_job_family": "Environment",
+                "hayScore": 333,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB498",
+                "parentId": null
+            },
+            {
+                "title": "Section In-charge- Technical Services ",
+                "current_band": "L6",
+                "current_grade": "M4",
+                "current_grade_color": "rgb(123, 204, 40)",
+                "sub_job_family": "Technical Services",
+                "hayScore": 323,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB516",
+                "parentId": null
+            },
+            {
+                "title": "Section In-charge- Technical Services ",
+                "current_band": "L7",
+                "current_grade": "M5",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Technical Services",
+                "hayScore": 323,
+                "outlierIcon": 1,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB501",
+                "parentId": null
+            },
+            {
+                "title": "Section In-charge- Technical Services ",
+                "current_band": "L7",
+                "current_grade": "M5",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Technical Services",
+                "hayScore": 323,
+                "outlierIcon": 1,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB502",
+                "parentId": null
+            },
+            {
+                "title": "Section In-charge- Technical Services ",
+                "current_band": "L7",
+                "current_grade": "M5",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Technical Services",
+                "hayScore": 323,
+                "outlierIcon": 1,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB503",
+                "parentId": null
+            }
+        ]
+    },
+    {
+        "band": "L7",
+        "range": "241-306",
+        "percentage": "27%",
+        "uniqueJobs": [
+            {
+                "title": "Technical Services Executive",
+                "current_band": "L7",
+                "current_grade": "M6",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Technical Services",
+                "hayScore": 247,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB504",
+                "parentId": null
+            },
+            {
+                "title": "Technical Services Executive",
+                "current_band": "L7",
+                "current_grade": "M6",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Technical Services",
+                "hayScore": 247,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB505",
+                "parentId": null
+            },
+            {
+                "title": "Technical Services Executive",
+                "current_band": "L7",
+                "current_grade": "M6",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Technical Services",
+                "hayScore": 247,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB506",
+                "parentId": null
+            },
+            {
+                "title": "Technical Services Executive",
+                "current_band": "L7",
+                "current_grade": "M6",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Technical Services",
+                "hayScore": 247,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB513",
+                "parentId": null
+            },
+            {
+                "title": "Technical Services Executive",
+                "current_band": "L7",
+                "current_grade": "M6",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Technical Services",
+                "hayScore": 247,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB517",
+                "parentId": null
+            },
+            {
+                "title": "Technical Services Executive",
+                "current_band": "L7",
+                "current_grade": "M6",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Technical Services",
+                "hayScore": 247,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB518",
+                "parentId": null
+            },
+            {
+                "title": "Technical Services Executive",
+                "current_band": "L7",
+                "current_grade": "M6",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Technical Services",
+                "hayScore": 247,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB519",
+                "parentId": null
+            },
+            {
+                "title": "Technical Services Executive",
+                "current_band": "L7",
+                "current_grade": "M6",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Technical Services",
+                "hayScore": 247,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB524",
+                "parentId": null
+            },
+            {
+                "title": "Technical Services Executive",
+                "current_band": "L8",
+                "current_grade": "M7",
+                "current_grade_color": "rgb(204, 40, 122)",
+                "sub_job_family": "Technical Services",
+                "hayScore": 247,
+                "outlierIcon": 1,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB514",
+                "parentId": null
+            }
+        ]
+    },
+    {
+        "band": "L8",
+        "range": "240 and below",
+        "percentage": null,
+        "uniqueJobs": [
+            {
+                "title": "Executive- Safety & Health",
+                "current_band": "L6",
+                "current_grade": "M4",
+                "current_grade_color": "rgb(123, 204, 40)",
+                "sub_job_family": "Safety & Health",
+                "hayScore": 240,
+                "outlierIcon": -1,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB500",
+                "parentId": "AB521"
+            },
+            {
+                "title": "Executive- Environment",
+                "current_band": "L7",
+                "current_grade": "M6",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Environment",
+                "hayScore": 240,
+                "outlierIcon": -1,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB499",
+                "parentId": "AB498"
+            },
+            {
+                "title": "Executive- Safety & Health",
+                "current_band": "L7",
+                "current_grade": "M6",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Safety & Health",
+                "hayScore": 240,
+                "outlierIcon": -1,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB520",
+                "parentId": "AB521"
+            },
+            {
+                "title": "Executive- Safety & Health",
+                "current_band": "L7",
+                "current_grade": "M6",
+                "current_grade_color": "rgb(204, 40, 53)",
+                "sub_job_family": "Safety & Health",
+                "hayScore": 240,
+                "outlierIcon": -1,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB523",
+                "parentId": "AB521"
+            },
+            {
+                "title": "Shift Officer - Environment ",
+                "current_band": "L8",
+                "current_grade": "M7",
+                "current_grade_color": "rgb(204, 40, 122)",
+                "sub_job_family": "Environment",
+                "hayScore": 160,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB507",
+                "parentId": "AB498"
+            },
+            {
+                "title": "Shift Officer - Environment ",
+                "current_band": "L8",
+                "current_grade": "M7",
+                "current_grade_color": "rgb(204, 40, 122)",
+                "sub_job_family": "Environment",
+                "hayScore": 160,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB508",
+                "parentId": "AB498"
+            },
+            {
+                "title": "Shift Officer - Environment ",
+                "current_band": "L8",
+                "current_grade": "M7",
+                "current_grade_color": "rgb(204, 40, 122)",
+                "sub_job_family": "Environment",
+                "hayScore": 160,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB509",
+                "parentId": "AB498"
+            },
+            {
+                "title": "Shift Officer - Environment ",
+                "current_band": "L8",
+                "current_grade": "M7",
+                "current_grade_color": "rgb(204, 40, 122)",
+                "sub_job_family": "Environment",
+                "hayScore": 160,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB510",
+                "parentId": "AB498"
+            },
+            {
+                "title": "Executive- Safety & Health",
+                "current_band": "L8",
+                "current_grade": "M7",
+                "current_grade_color": "rgb(204, 40, 122)",
+                "sub_job_family": "Safety & Health",
+                "hayScore": 240,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB511",
+                "parentId": "AB521"
+            },
+            {
+                "title": "Executive- Safety & Health",
+                "current_band": "L8",
+                "current_grade": "M7",
+                "current_grade_color": "rgb(204, 40, 122)",
+                "sub_job_family": "Safety & Health",
+                "hayScore": 240,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB512",
+                "parentId": "AB521"
+            },
+            {
+                "title": "Shift Officer - Environment ",
+                "current_band": "L8",
+                "current_grade": "M7",
+                "current_grade_color": "rgb(204, 40, 122)",
+                "sub_job_family": "Environment",
+                "hayScore": 160,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB522",
+                "parentId": "AB498"
+            },
+            {
+                "title": "Shift Officer - Environment ",
+                "current_band": "L8",
+                "current_grade": "M7",
+                "current_grade_color": "rgb(204, 40, 122)",
+                "sub_job_family": "Environment",
+                "hayScore": 160,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB1313",
+                "parentId": "AB498"
+            },
+            {
+                "title": "Executive- Safety & Health",
+                "current_band": "L8",
+                "current_grade": "M7",
+                "current_grade_color": "rgb(204, 40, 122)",
+                "sub_job_family": "Safety & Health",
+                "hayScore": 240,
+                "outlierIcon": 0,
+                "stepGapIcon": "Other Step Gap",
+                "id": "AB1332",
+                "parentId": "AB521"
+            }
+        ]
+    }
+]
