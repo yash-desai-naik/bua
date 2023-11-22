@@ -15,6 +15,7 @@ import Xarrow, { Xwrapper, useXarrow } from "react-xarrows";
 import axios from "axios";
 import "./App.css";
 // import * as htmlToImage from "html-to-image";
+import { jsPDF } from "jspdf";
 
 const NegativeOutlierIcon = () => (
   <>
@@ -127,9 +128,10 @@ const YourComponent = () => {
   };
 
   const takeScreenShot = async (node: HTMLElement) => {
-    console.log("node", node);
+    const dataURI = await htmlToImage.toPng(node, {
+      quality: 1,
+    });
 
-    const dataURI = await htmlToImage.toPng(node);
     return dataURI;
   };
 
@@ -141,6 +143,29 @@ const YourComponent = () => {
   };
 
   const downloadScreenshot = () => takeScreenShot(ref.current).then(download);
+
+  //a funcion to convert the screenshot into pdf
+  const downloadPdf = () => {
+    htmlToImage
+      .toPng(ref.current)
+      .then((dataUrl) => {
+        //width of the image
+        const width = ref.current.clientWidth * 1.4;
+        const height = ref.current.clientHeight * 2;
+        console.log("width", width);
+        console.log("height", height);
+        const pdf = new jsPDF({
+          orientation: "landscape",
+          unit: "px",
+          format: [width, height],
+        });
+        pdf.addImage(dataUrl, "PNG", 0, 0);
+        pdf.save("screenshot.pdf");
+      })
+      .catch((error) => {
+        console.error("Error generating PDF:", error);
+      });
+  };
 
   const [uploadedFile, setUploadedFile] = useState(null);
 
@@ -216,6 +241,10 @@ const YourComponent = () => {
 
       try {
         setIsLoading(true);
+        setData(undefined);
+        setIsError(false);
+        setErrorMessage("");
+        setUniqueSubJobFamilies(undefined);
 
         const url = new URL(`${BASE_URL}/api/process_excel`);
 
@@ -320,7 +349,7 @@ const YourComponent = () => {
         >
           {`${isLoading ? "..." : "Draw"}`}{" "}
         </button>
-        {data.length > 0 ? (
+        {data && data.length > 0 ? (
           <>
             <button
               className="bg-black py-1 px-2  text-gray-100 w-16 active:bg-gray-900 active:scale-105 hover:shadow-xl"
@@ -328,9 +357,7 @@ const YourComponent = () => {
             >
               Export
             </button>
-            {/* <button onClick={() => exportAsImage(exportRef.current, "test")}>
-              Capture Image
-            </button> */}
+            {/* <button onClick={downloadPdf}>Export PDF</button> */}
           </>
         ) : (
           <></>
@@ -385,14 +412,13 @@ const YourComponent = () => {
               </div>
             </div>
           </div>
-          <hr />
 
           <table className="mt-20 min-w-full overflow-x-visible">
-            <thead>
-              <tr className="">
-                <th className=" font-bold  px-24 py-4 ">Band</th>
+            <thead className="">
+              <tr className=" ">
+                <th className="font-bold  px-24 py-4 ">Band</th>
                 {uniqueSubJobFamilies?.map((subJobFamily) => (
-                  <th key={subJobFamily} className="font-semibold  py-2 px-2">
+                  <th key={subJobFamily} className="font-semibold  py-2 px-24">
                     {subJobFamily}
                   </th>
                 ))}
@@ -405,7 +431,7 @@ const YourComponent = () => {
                     key={row.band}
                     className=" border border-dashed border-b-2"
                   >
-                    <td className=" p-10 font-bold">
+                    <td className=" p-10  font-bold">
                       <div className="relative">
                         <small className="absolute -rotate-90 text-xl">
                           {row.band}
@@ -432,7 +458,7 @@ const YourComponent = () => {
                       <Draggable onDrag={updateXarrow} onStop={updateXarrow}>
                         <td
                           key={subJobFamily}
-                          className=" relative px-96 py-[8rem]"
+                          className=" relative px-24 py-[8rem]"
                         >
                           <div
                             id={
@@ -452,12 +478,12 @@ const YourComponent = () => {
                                 "px"
                               })`,
                             }}
-                            className={`absolute   px-1  h-36 text-2xl flex flex-col  justify-center items-center 
+                            className={`absolute z-50  px-1  h-36 text-2xl flex flex-col  justify-center items-center 
                   text-center ${
                     row.uniqueJobs.find(
                       (job) => job.sub_job_family === subJobFamily
                     )?.title
-                      ? "outline outline-gray-300"
+                      ? "outline outline-gray-500"
                       : ""
                   }  ${
                               row.uniqueJobs.find(
@@ -542,7 +568,7 @@ const YourComponent = () => {
                                 : "black"
                             }
                             // color="black"
-                            // zIndex={0}
+                            zIndex={0}
                             // lineColor={"blue"}
                             // _cpx1Offset={5}
                             // _cpx2Offset={5}
@@ -564,6 +590,8 @@ const YourComponent = () => {
             </tbody>
           </table>
         </section>
+      ) : isLoading ? (
+        <>Loading</>
       ) : (
         <></>
       )}
