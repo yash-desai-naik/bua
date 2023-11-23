@@ -188,11 +188,12 @@ const YourComponent = () => {
         stepGapIcon: "High Step Gap" | "Low Step Gap" | "Other Step Gap";
         id: string;
         parentId: string;
+        sub_job_family: string;
       }[];
     }[]
   >([]); // Initialize data as an empty array
 
-  const [uniqueSubJobFamilies, setUniqueSubJobFamilies] = useState();
+  const [uniqueSubJobFamilies, setUniqueSubJobFamilies] = useState<string[]>();
 
   const [buValue, setBUValue] = useState<
     { value: String; label: string }[] | undefined
@@ -339,9 +340,9 @@ const YourComponent = () => {
           defaultValue={level}
           // def
           onChange={handleLevelChange}
-          // isClearable={true}
-          // isSearchable={true}
-          // isMulti
+        // isClearable={true}
+        // isSearchable={true}
+        // isMulti
         />
         <button
           onClick={uploadFile}
@@ -413,6 +414,7 @@ const YourComponent = () => {
             </div>
           </div>
 
+
           <table className="mt-20 min-w-full overflow-x-visible">
             <thead className="">
               <tr className=" ">
@@ -436,14 +438,14 @@ const YourComponent = () => {
                         <small className="absolute -rotate-90 text-xl">
                           {row.band}
                         </small>
-                        <small className="absolute text-xl ml-1 -rotate-90 text-center font-bold text-gray-600">
+                        <small className="absolute  ml-1 -rotate-90 text-center font-bold text-gray-600">
                           {row.range}
                         </small>
                         <span className="absolute scale-[3.6] -top-8 ml-20 text-gray-300 flex flex-col   justify-between">
                           {row.percentage ? (
                             <>
                               <BsArrowUp size={20} />
-                              <small className="text-[0.36rem]  text-center  -rotate-90 font-bold py-2 text-gray-600">
+                              <small className="text-[0.28rem]  text-center  -rotate-90 font-bold py-2 text-gray-600">
                                 {row.percentage ?? ""}
                               </small>
                               <BsArrowDown size={20} />
@@ -457,128 +459,110 @@ const YourComponent = () => {
                     {uniqueSubJobFamilies?.map((subJobFamily) => (
                       <Draggable onDrag={updateXarrow} onStop={updateXarrow}>
                         <td key={subJobFamily} className="relative  py-[8rem]">
-                          <div
-                            id={
-                              row.uniqueJobs.find(
-                                (job) => job.sub_job_family === subJobFamily
-                              )?.id ?? "undefined"
-                            }
-                            style={{
-                              left: 24,
-                              right: 24,
-                              bottom: 0,
-                              transform: `translate(0,-${
-                                ((row?.uniqueJobs?.find(
-                                  (job) => job?.sub_job_family === subJobFamily
-                                )?.hayScore ?? 0) /
-                                  20) *
-                                  1.89 +
-                                "px"
-                              })`,
-                            }}
-                            className={`absolute z-50  px-1  h-36 text-2xl flex flex-col  justify-center items-center 
-                  text-center ${
-                    row.uniqueJobs.find(
-                      (job) => job.sub_job_family === subJobFamily
-                    )?.title
-                      ? "outline outline-gray-500"
-                      : ""
-                  }  ${
-                              row.uniqueJobs.find(
-                                (job) => job.sub_job_family === subJobFamily
-                              )?.stepGapIcon == "High Step Gap"
-                                ? "!bg-blue-200"
-                                : row.uniqueJobs.find(
-                                    (job) => job.sub_job_family === subJobFamily
-                                  )?.stepGapIcon == "Low Step Gap"
-                                ? "!bg-yellow-200"
-                                : ""
-                            }`}
-                          >
-                            <small className="font-semibold">
-                              {row.uniqueJobs.find(
-                                (job) => job.sub_job_family === subJobFamily
-                              )?.outlierIcon === -1 ? (
-                                <NegativeOutlierIcon />
-                              ) : row.uniqueJobs.find(
-                                  (job) => job.sub_job_family === subJobFamily
-                                )?.outlierIcon === 1 ? (
-                                <PositiveOutlierIcon />
-                              ) : (
-                                <></>
-                              )}{" "}
-                              {
-                                row.uniqueJobs.find(
-                                  (job) => job.sub_job_family === subJobFamily
-                                )?.title
-                              }
-                            </small>
-                            <small>
-                              {
-                                row.uniqueJobs.find(
-                                  (job) => job.sub_job_family === subJobFamily
-                                )?.current_grade
-                              }
-                            </small>
-                            <small className="font-semibold">
-                              {
-                                row.uniqueJobs.find(
-                                  (job) => job.sub_job_family === subJobFamily
-                                )?.hayScore
-                              }
-                            </small>
-                          </div>
-                          <Xarrow
-                            start={
-                              row.uniqueJobs.find(
-                                (job) => job.sub_job_family == subJobFamily
-                              )?.parentId
-                                ? row.uniqueJobs.find(
-                                    (job) => job.sub_job_family == subJobFamily
-                                  )?.id
-                                : undefined
-                            } //can be react ref
-                            end={
-                              row.uniqueJobs.find(
-                                (job) => job.sub_job_family == subJobFamily
-                              )?.parentId
-                                ? row.uniqueJobs.find(
-                                    (job) => job.sub_job_family == subJobFamily
-                                  )?.parentId
-                                : undefined
-                            } //or an id
-                            strokeWidth={1.5}
-                            path={"grid"}
-                            showHead={false}
-                            showTail={true}
-                            // curveness={0.8}
-                            // color="#0000007f"
-                            color={
-                              row.uniqueJobs.find(
-                                (job) => job.sub_job_family == subJobFamily
-                              )?.parentId
-                                ? getRandomColor(
-                                    row.uniqueJobs.find(
-                                      (job) =>
-                                        job.sub_job_family == subJobFamily
-                                    )?.parentId
-                                  )
-                                : "black"
-                            }
-                            // color="black"
-                            zIndex={0}
-                            // lineColor={"blue"}
-                            // _cpx1Offset={5}
-                            // _cpx2Offset={5}
-                            // _cpy1Offset={5}
-                            // _cpy2Offset={5}
-                            // _debug={true}
-                            // dashness={true}
-                            // labels={`${row.uniqueJobs.find(job=>job.sub_job_family==subJobFamily).parentId} - ${row.uniqueJobs.find(job=>job.sub_job_family==subJobFamily).parentId}`}
-                            startAnchor={"top"}
-                            endAnchor={"bottom"}
-                            gridBreak="5%10"
-                          />
+                          {row?.uniqueJobs?.filter(ruj => ruj.sub_job_family === subJobFamily)?.map((uj) => (
+                            <>
+                            <div className="flex flex-col gap-20">
+                              <div
+                                id={
+                                  uj?.id ?? "undefined"
+                                }
+                                style={{
+                                  left: 24,
+                                  right: 24,
+                                  bottom: `${uj?.hayScore+10}px`,
+                                  transform: `translate(0,-${((uj?.hayScore ?? 0) /
+                                    20) *
+                                    1.89 +
+                                    "px"
+                                    })`,
+                                }}
+                                className={`absolute z-50  px-1  h-36 text-[1.2rem] flex flex-col  justify-center items-center 
+                                              text-center ${uj?.title
+                                    ? "outline outline-gray-500"
+                                    : ""
+                                  }  ${uj?.stepGapIcon == "High Step Gap"
+                                    ? "!bg-blue-200"
+                                    : uj?.stepGapIcon == "Low Step Gap"
+                                      ? "!bg-yellow-200"
+                                      : ""
+                                  }`}
+                              >
+                                <small className="font-semibold">
+                                  {uj?.outlierIcon === -1 ? (
+                                    <NegativeOutlierIcon />
+                                  ) : uj?.outlierIcon === 1 ? (
+                                    <PositiveOutlierIcon />
+                                  ) : (
+                                    <></>
+                                  )}{" "}
+                                  {
+                                    uj?.title
+                                  }
+                                </small>
+                                <small>
+                                  {
+                                    uj?.current_grade
+                                  }
+                                </small>
+                                <small className="font-semibold">
+                                  {
+                                    uj?.hayScore
+                                  }
+                                </small>
+                                
+                              </div>
+                            </div>
+                            {/* <div className="flex flex-col gap-3">
+                              <div className="bg-red-500" id={uj.id}>{uj.title}</div>
+                            </div> */}
+                            <Xarrow
+                                  start={
+                                    uj?.parentId
+                                      ? row.uniqueJobs.find(
+                                        (job) => job.sub_job_family == subJobFamily
+                                      )?.id
+                                      : undefined
+                                  } //can be react ref
+                                  end={
+                                    uj?.parentId
+                                      ? row.uniqueJobs.find(
+                                        (job) => job.sub_job_family == subJobFamily
+                                      )?.parentId
+                                      : undefined
+                                  } //or an id
+                                  strokeWidth={1.5}
+                                  path={"grid"}
+                                  showHead={false}
+                                  showTail={true}
+                                  // curveness={0.8}
+                                  // color="#0000007f"
+                                  color={
+                                    uj?.parentId
+                                      ? getRandomColor(
+                                        row.uniqueJobs.find(
+                                          (job) =>
+                                            job.sub_job_family == subJobFamily
+                                        )?.parentId
+                                      )
+                                      : "black"
+                                  }
+                                  // color="black"
+                                  zIndex={0}
+                                  // lineColor={"blue"}
+                                  // _cpx1Offset={5}
+                                  // _cpx2Offset={5}
+                                  // _cpy1Offset={5}
+                                  // _cpy2Offset={5}
+                                  // _debug={true}
+                                  // dashness={true}
+                                  // labels={`${row.uniqueJobs.find(job=>job.sub_job_family==subJobFamily).parentId} - ${row.uniqueJobs.find(job=>job.sub_job_family==subJobFamily).parentId}`}
+                                  startAnchor={"top"}
+                                  endAnchor={"bottom"}
+                                  gridBreak="5%10"
+                                />
+                            </>
+                          ))}
+
                         </td>
                       </Draggable>
                     ))}
