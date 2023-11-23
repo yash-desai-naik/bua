@@ -416,9 +416,9 @@ const YourComponent = () => {
           <table className="mt-20 min-w-full overflow-x-visible">
             <thead className="">
               <tr className=" ">
-                <th className="font-bold  px-24 py-4 ">Band</th>
+                <th className=" font-bold   py-4 "></th>
                 {uniqueSubJobFamilies?.map((subJobFamily) => (
-                  <th key={subJobFamily} className="font-semibold  py-2 px-24">
+                  <th key={subJobFamily} className=" font-semibold  px-2 ">
                     {subJobFamily}
                   </th>
                 ))}
@@ -456,10 +456,7 @@ const YourComponent = () => {
                     </td>
                     {uniqueSubJobFamilies?.map((subJobFamily) => (
                       <Draggable onDrag={updateXarrow} onStop={updateXarrow}>
-                        <td
-                          key={subJobFamily}
-                          className=" relative px-24 py-[8rem]"
-                        >
+                        <td key={subJobFamily} className="relative  py-[8rem]">
                           <div
                             id={
                               row.uniqueJobs.find(
@@ -468,6 +465,7 @@ const YourComponent = () => {
                             }
                             style={{
                               left: 24,
+                              right: 24,
                               bottom: 0,
                               transform: `translate(0,-${
                                 ((row?.uniqueJobs?.find(
