@@ -38,10 +38,21 @@ const BUoptionList = [
 ];
 
 const jobFamilyOptionList = [
+ { value: "Corporate Communications", label: "Corporate Communications" },
+  { value: "Dummy", label: "Dummy" },
+  { value: "Engineering", label: "Engineering" },
+  { value: "Finance & Accounts", label: "Finance & Accounts" },
   { value: "HR & Admin.", label: "HR & Admin." },
+  { value: "Innovation & Technology", label: "Innovation & Technology" },
+  { value: "IT Services", label: "IT Services" },
+  { value: "Legal & Secretarial", label: "Legal & Secretarial" },
+  { value: "MD's Office", label: "MD's Office" },
+  { value: "Marketing & Product Management", label: "Marketing & Product Management" },
   { value: "Operational Excellence", label: "Operational Excellence" },
-  { value: "Supply Chain Management", label: "Supply Chain Management" },
-  { value: "HO", label: "HO" },
+  { value: "Operations", label: "Operations" },
+  { value: "QA/QC", label: "QA/QC" },
+  { value: "Strategy", label: "Strategy" },
+  { value: "Supply Chain Management", label: "Supply Chain Management" }
 ];
 
 const levelList = [
@@ -371,9 +382,9 @@ function Dashboard() {
           defaultValue={level}
           // def
           onChange={handleLevelChange}
-          // isClearable={true}
-          // isSearchable={true}
-          // isMulti
+        // isClearable={true}
+        // isSearchable={true}
+        // isMulti
         />
         <button
           onClick={uploadFile}
@@ -475,9 +486,9 @@ function Dashboard() {
               <div className=" w-screen ">
                 {data.map((item, index) => (
                   <div
-                    className={` border-b-[.5px] border-gray-300 relative py-7`}
+                    className={` border-b-[.5px] border-dashed border-gray-300 relative py-8`}
                   >
-                    <div key={index} className=" w-full flex  gap-4">
+                    <div key={index} className=" flex  gap-4">
                       <div className="#bg-white left-labels left-0 sticky z-50">
                         <div className="#bg-white  w-full z-50">
                           <div className="band-label #bg-white    flex items-center justify-center">
@@ -507,9 +518,11 @@ function Dashboard() {
                       <div
                         style={{
                           bottom: `-50px`,
+                          justifyContent:index%2==0?'space-evenly':'space-between',
+                          gap:'3rem'
                         }}
                         className={` w-screen relative  flex
-                          justify-around
+                          
                             text-xs`}
                       >
                         {item?.uniqueJobs.map((job, jobIndex) => (
@@ -534,10 +547,10 @@ function Dashboard() {
                                       item.uniqueJobs.length >= 100
                                         ? "6200px"
                                         : item.uniqueJobs.length >= 70
-                                        ? "1800px"
-                                        : item.uniqueJobs.length >= 30
-                                        ? "500px"
-                                        : "0px",
+                                          ? "1800px"
+                                          : item.uniqueJobs.length >= 30
+                                            ? "500px"
+                                            : "0px",
                                     // bottom: "-24px",
                                     // backgroundColor,
                                     bottom: `${job.hayScore * 0.063}` + "px",
@@ -545,18 +558,17 @@ function Dashboard() {
                                   }}
                                   id={job.id}
                                   key={jobIndex}
-                                  className={` flex flex-col justify-around cursor-pointer w-56 h-40  px-2 py-1  ${
-                                    job.stepGapIcon == "High Step Gap"
+                                  className={` flex flex-col justify-around cursor-pointer w-56 h-40  px-2 py-1  ${job.stepGapIcon == "High Step Gap"
                                       ? "!bg-blue-200"
                                       : job.stepGapIcon == "Low Step Gap"
-                                      ? "!bg-yellow-200"
-                                      : ""
-                                  }`}
+                                        ? "!bg-yellow-200"
+                                        : ""
+                                    }`}
                                 >
                                   <div
                                     className="text-center"
                                     title={`${job.id}/${job.parentId ?? ""}`}
-                                  >
+                                  >{job.title_count > 1 ? <span className="absolute right-0 top-0 bg-gray-300 p-1 ">{job.title_count}</span> : <></>}
                                     {job.outlierIcon === -1 ? (
                                       <NegativeOutlierIcon />
                                     ) : job.outlierIcon === 1 ? (
@@ -587,7 +599,7 @@ function Dashboard() {
                               </Draggable>
                               <Xarrow
                                 start={job.parentId ? job.id : undefined} //can be react ref
-                                end={job.parentId ? job.parentId : undefined} //or an id
+                                end={job.id ? job.parentId : undefined} //or an id
                                 strokeWidth={1.5}
                                 path={lineRender}
                                 showHead={false}

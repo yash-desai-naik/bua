@@ -458,108 +458,103 @@ const YourComponent = () => {
                     </td>
                     {uniqueSubJobFamilies?.map((subJobFamily) => (
                       <Draggable onDrag={updateXarrow} onStop={updateXarrow}>
-                        <td key={subJobFamily} className="relative  py-[8rem]">
+                        <td key={subJobFamily} className=" relative  py-[8rem]">
                           {row?.uniqueJobs?.filter(ruj => ruj.sub_job_family === subJobFamily)?.map((uj) => (
                             <>
-                            <div className="flex flex-col gap-20">
-                              <div
-                                id={
-                                  uj?.id ?? "undefined"
-                                }
-                                style={{
-                                  left: 24,
-                                  right: 24,
-                                  bottom: `${uj?.hayScore+10}px`,
-                                  transform: `translate(0,-${((uj?.hayScore ?? 0) /
-                                    20) *
-                                    1.89 +
-                                    "px"
-                                    })`,
-                                }}
-                                className={`absolute z-50  px-1  h-36 text-[1.2rem] flex flex-col  justify-center items-center 
-                                              text-center ${uj?.title
-                                    ? "outline outline-gray-500"
-                                    : ""
-                                  }  ${uj?.stepGapIcon == "High Step Gap"
-                                    ? "!bg-blue-200"
-                                    : uj?.stepGapIcon == "Low Step Gap"
-                                      ? "!bg-yellow-200"
+                              <div className="h-36 flex flex-col gap-20">
+                                <div
+                                  id={
+                                    uj?.id ?? "undefined"
+                                  }
+                                  style={{
+                                    left: 24,
+                                    right: 24,
+                                    // bottom: `${uj?.hayScore+10}px`,
+                                    transform: `translate(0,-${((uj?.hayScore ?? 0) /
+                                      20) *
+                                      1.89 +
+                                      "px"
+                                      })`,
+                                  }}
+                                  className={`??? absolute  z-50  px-1  h-36 text-[1.2rem] flex flex-col  justify-center items-center 
+                                text-center ${uj?.title
+                                      ? "outline outline-gray-500"
                                       : ""
-                                  }`}
-                              >
-                                <small className="font-semibold">
-                                  {uj?.outlierIcon === -1 ? (
-                                    <NegativeOutlierIcon />
-                                  ) : uj?.outlierIcon === 1 ? (
-                                    <PositiveOutlierIcon />
-                                  ) : (
-                                    <></>
-                                  )}{" "}
-                                  {
+                                    }  ${uj?.stepGapIcon == "High Step Gap"
+                                      ? "!bg-blue-200"
+                                      : uj?.stepGapIcon == "Low Step Gap"
+                                        ? "!bg-yellow-200"
+                                        : ""
+                                    }`}
+                                >
+                                  <span className="absolute top-0 right-0 bg-gray-300 px-2">{uj.sub_job_family_count}</span>
+                                  <small className="absolute top-0 left-0 font-semibold">
+                                    {uj?.outlierIcon === -1 ? (
+                                      <NegativeOutlierIcon />
+                                    ) : uj?.outlierIcon === 1 ? (
+                                      <PositiveOutlierIcon />
+                                    ) : (
+                                      <></>
+                                    )}{" "}
+
+                                  </small>
+                                  <span> {
                                     uj?.title
-                                  }
-                                </small>
-                                <small>
-                                  {
-                                    uj?.current_grade
-                                  }
-                                </small>
-                                <small className="font-semibold">
-                                  {
-                                    uj?.hayScore
-                                  }
-                                </small>
-                                
+                                  }</span>
+                                  <small>
+                                    ({
+                                      uj?.current_grade
+                                    })
+                                  </small>
+                                  <small className="font-semibold">
+                                    {
+                                      uj?.hayScore
+                                    }
+                                  </small>
+
+                                </div>
                               </div>
-                            </div>
-                            {/* <div className="flex flex-col gap-3">
+                              {/* <div className="flex flex-col gap-3">
                               <div className="bg-red-500" id={uj.id}>{uj.title}</div>
                             </div> */}
-                            <Xarrow
-                                  start={
-                                    uj?.parentId
-                                      ? row.uniqueJobs.find(
-                                        (job) => job.sub_job_family == subJobFamily
-                                      )?.id
-                                      : undefined
-                                  } //can be react ref
-                                  end={
-                                    uj?.parentId
-                                      ? row.uniqueJobs.find(
-                                        (job) => job.sub_job_family == subJobFamily
-                                      )?.parentId
-                                      : undefined
-                                  } //or an id
-                                  strokeWidth={1.5}
-                                  path={"grid"}
-                                  showHead={false}
-                                  showTail={true}
-                                  // curveness={0.8}
-                                  // color="#0000007f"
-                                  color={
-                                    uj?.parentId
-                                      ? getRandomColor(
-                                        row.uniqueJobs.find(
-                                          (job) =>
-                                            job.sub_job_family == subJobFamily
-                                        )?.parentId
-                                      )
-                                      : "black"
-                                  }
-                                  // color="black"
-                                  zIndex={0}
-                                  // lineColor={"blue"}
-                                  // _cpx1Offset={5}
-                                  // _cpx2Offset={5}
-                                  // _cpy1Offset={5}
-                                  // _cpy2Offset={5}
-                                  // _debug={true}
-                                  // dashness={true}
-                                  // labels={`${row.uniqueJobs.find(job=>job.sub_job_family==subJobFamily).parentId} - ${row.uniqueJobs.find(job=>job.sub_job_family==subJobFamily).parentId}`}
-                                  startAnchor={"top"}
-                                  endAnchor={"bottom"}
-                                  gridBreak="5%10"
-                                />
+                              <Xarrow
+                                start={
+                                  uj?.parentId
+                                    ? uj?.id
+                                    : undefined
+                                } //can be react ref
+                                end={
+                                  uj?.parentId
+                                    ? uj?.parentId
+                                    : undefined
+                                } //or an id
+                                strokeWidth={1.5}
+                                path={"grid"}
+                                showHead={false}
+                                showTail={true}
+                                // curveness={0.8}
+                                // color="#0000007f"
+                                color={
+                                  uj?.parentId
+                                    ? getRandomColor(
+                                      uj?.parentId
+                                    )
+                                    : "black"
+                                }
+                                // color="black"
+                                zIndex={0}
+                                // lineColor={"blue"}
+                                // _cpx1Offset={5}
+                                // _cpx2Offset={5}
+                                // _cpy1Offset={5}
+                                // _cpy2Offset={5}
+                                // _debug={true}
+                                // dashness={true}
+                                // labels={`${row.uniqueJobs.find(job=>job.sub_job_family==subJobFamily).parentId} - ${row.uniqueJobs.find(job=>job.sub_job_family==subJobFamily).parentId}`}
+                                startAnchor={"top"}
+                                endAnchor={"bottom"}
+                                gridBreak="5%10"
+                              />
                             </>
                           ))}
 
