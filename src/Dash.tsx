@@ -117,6 +117,17 @@ const jobFamilyOptionList = [
   { value: "QA/QC", label: "QA/QC" },
   { value: "Strategy", label: "Strategy" },
   { value: "Supply Chain Management", label: "Supply Chain Management" },
+
+  { value: "WLC", label: "WLC" },
+  { value: "Marketing, PR and NPD", label: "Marketing, PR and NPD" },
+  { value: "Development", label: "Development" },
+  { value: "Business Ops and RSG", label: "Business Ops and RSG" },
+  { value: "Finance", label: "Finance" },
+  { value: "Supply Chain and QS", label: "Supply Chain and QS" },
+  { value: "HR", label: "HR" },
+  { value: "Product and IT", label: "Product and IT" },
+  { value: "Strategy", label: "Strategy" },
+  { value: "Legal and CS", label: "Legal and CS" },
 ];
 
 const levelList = [
@@ -486,7 +497,7 @@ const YourComponent = () => {
                             )
                             ?.map((uj, index__, ujobs) => (
                               <>
-                                <div className=" h-36   flex flex-col ">
+                                <div className=" h-36  mt-2 flex flex-col ">
                                   <div
                                     id={uj?.id ?? "undefined"}
                                     style={{
@@ -497,7 +508,7 @@ const YourComponent = () => {
                                         ((uj?.hayScore ?? 0) / 20) * 1.89 + "px"
                                       })`,
                                     }}
-                                    className={`bg-white absolute z-50  px-1  h-36  text-[1.2rem] flex flex-col  justify-center items-center 
+                                    className={`bg-white absolute z-50  px-1  h-36 w-56  text-[1.2rem] flex flex-col  justify-center items-center 
                                               text-center ${
                                                 uj?.title
                                                   ? "outline outline-1 outline-gray-500"
@@ -510,6 +521,7 @@ const YourComponent = () => {
                                         : ""
                                     }`}
                                   >
+                                    {/* <span>{`${uj.id}/${uj.parentId}`}</span> */}
                                     <span className=" absolute right-0 top-0 bg-gray-300  px-1">
                                       {uj.title_count}
                                     </span>
@@ -577,8 +589,8 @@ const YourComponent = () => {
                                   // _debug={true}
                                   // dashness={true}
                                   // labels={`${row.uniqueJobs.find(job=>job.sub_job_family==subJobFamily).parentId} - ${row.uniqueJobs.find(job=>job.sub_job_family==subJobFamily).parentId}`}
-                                  startAnchor={ujobs.length>1?"right":"top"}
-                                  endAnchor={ujobs.length>1?"right":"bottom"}
+                                  startAnchor={"top"}
+                                  endAnchor={"bottom"}
                                   gridBreak="5%10"
                                 />
                               </>
