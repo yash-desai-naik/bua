@@ -89,46 +89,46 @@ function getBrightness(hexColor) {
   return (r * 299 + g * 587 + b * 114) / 1000;
 }
 
-const BUoptionList = [
-  // { value: "Dummy", label: "Dummy" },
-  { value: "BU-A", label: "BU-A" },
-  { value: "BU-B", label: "BU-B" },
-  { value: "BU-C", label: "BU-C" },
-  { value: "HO", label: "HO" },
-];
+// const BUoptionList = [
+//   // { value: "Dummy", label: "Dummy" },
+//   { value: "BU-A", label: "BU-A" },
+//   { value: "BU-B", label: "BU-B" },
+//   { value: "BU-C", label: "BU-C" },
+//   { value: "HO", label: "HO" },
+// ];
 
-const jobFamilyOptionList = [
-  // { value: "Dummy", label: "Dummy" },
-  { value: "Corporate Communications", label: "Corporate Communications" },
-  { value: "Dummy", label: "Dummy" },
-  { value: "Engineering", label: "Engineering" },
-  { value: "Finance & Accounts", label: "Finance & Accounts" },
-  { value: "HR & Admin.", label: "HR & Admin." },
-  { value: "Innovation & Technology", label: "Innovation & Technology" },
-  { value: "IT Services", label: "IT Services" },
-  { value: "Legal & Secretarial", label: "Legal & Secretarial" },
-  { value: "MD's Office", label: "MD's Office" },
-  {
-    value: "Marketing & Product Management",
-    label: "Marketing & Product Management",
-  },
-  { value: "Operational Excellence", label: "Operational Excellence" },
-  { value: "Operations", label: "Operations" },
-  { value: "QA/QC", label: "QA/QC" },
-  { value: "Strategy", label: "Strategy" },
-  { value: "Supply Chain Management", label: "Supply Chain Management" },
+// const jobFamilyOptionList = [
+//   // { value: "Dummy", label: "Dummy" },
+//   { value: "Corporate Communications", label: "Corporate Communications" },
+//   { value: "Dummy", label: "Dummy" },
+//   { value: "Engineering", label: "Engineering" },
+//   { value: "Finance & Accounts", label: "Finance & Accounts" },
+//   { value: "HR & Admin.", label: "HR & Admin." },
+//   { value: "Innovation & Technology", label: "Innovation & Technology" },
+//   { value: "IT Services", label: "IT Services" },
+//   { value: "Legal & Secretarial", label: "Legal & Secretarial" },
+//   { value: "MD's Office", label: "MD's Office" },
+//   {
+//     value: "Marketing & Product Management",
+//     label: "Marketing & Product Management",
+//   },
+//   { value: "Operational Excellence", label: "Operational Excellence" },
+//   { value: "Operations", label: "Operations" },
+//   { value: "QA/QC", label: "QA/QC" },
+//   { value: "Strategy", label: "Strategy" },
+//   { value: "Supply Chain Management", label: "Supply Chain Management" },
 
-  { value: "WLC", label: "WLC" },
-  { value: "Marketing, PR and NPD", label: "Marketing, PR and NPD" },
-  { value: "Development", label: "Development" },
-  { value: "Business Ops and RSG", label: "Business Ops and RSG" },
-  { value: "Finance", label: "Finance" },
-  { value: "Supply Chain and QS", label: "Supply Chain and QS" },
-  { value: "HR", label: "HR" },
-  { value: "Product and IT", label: "Product and IT" },
-  { value: "Strategy", label: "Strategy" },
-  { value: "Legal and CS", label: "Legal and CS" },
-];
+//   { value: "WLC", label: "WLC" },
+//   { value: "Marketing, PR and NPD", label: "Marketing, PR and NPD" },
+//   { value: "Development", label: "Development" },
+//   { value: "Business Ops and RSG", label: "Business Ops and RSG" },
+//   { value: "Finance", label: "Finance" },
+//   { value: "Supply Chain and QS", label: "Supply Chain and QS" },
+//   { value: "HR", label: "HR" },
+//   { value: "Product and IT", label: "Product and IT" },
+//   { value: "Strategy", label: "Strategy" },
+//   { value: "Legal and CS", label: "Legal and CS" },
+// ];
 
 const levelList = [
   { value: undefined, label: "All" },
@@ -195,6 +195,9 @@ const YourComponent = () => {
   };
 
   const [uploadedFile, setUploadedFile] = useState(null);
+
+  const [BUoptionList, setBUoptionList] = useState(null)
+  const [jobFamilyOptionList, setjobFamilyOptionList] = useState(null)
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -269,12 +272,57 @@ const YourComponent = () => {
 
       try {
         setIsLoading(true);
-        setData(undefined);
-        setIsError(false);
-        setErrorMessage("");
-        setUniqueSubJobFamilies(undefined);
+        // setData(undefined);
+        // setIsError(false);
+        // setErrorMessage("");
+        // setUniqueSubJobFamilies(undefined);
 
-        const url = new URL(`${BASE_URL}/api/process_excel`);
+        const url = new URL(`${BASE_URL}/api/upload_excel`);
+
+
+
+        const response = await axios.post(url.toString(), formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        // Assuming the API response is in the expected format
+        // setData(response.data);
+        // const uniqueSubJobFamilies_ = Array.from(
+        //   new Set(
+        //     data.flatMap((item) =>
+        //       item.uniqueJobs.map((job) => job.sub_job_family)
+        //     )
+        //   )
+        // );
+        // setUniqueSubJobFamilies(uniqueSubJobFamilies_);
+        // setIsLoading(false);
+        // console.log("data", data);
+        setBUoptionList(response.data.bu_option_list)
+        setjobFamilyOptionList(response.data.job_family_option_list)
+      } catch (error) {
+        console.error("Error uploading and processing file:", error);
+        setIsError(true);
+        // setIsError("Something went wrong");
+      }
+    } else {
+      console.error("No file selected");
+    }
+  };
+  const processData = async () => {
+    if (uploadedFile) {
+      const formData = new FormData();
+      // formData.append("excel_file", uploadedFile);
+
+      try {
+        setIsLoading(true);
+        // setData(undefined);
+        // setIsError(false);
+        // setErrorMessage("");
+        // setUniqueSubJobFamilies(undefined);
+
+        const url = new URL(`${BASE_URL}/api/process_data`);
 
         // add query parameter bu_filter if not null or undefined
         if (buValue && buValue.length > 0) {
@@ -330,7 +378,15 @@ const YourComponent = () => {
   return (
     <div className="  bg-transparent">
       <div className=" flex gap-4 py-4 px-4">
-        <input type="file" accept=".xlsx" onChange={handleFileChange} />
+
+        <input className="w-56" type="file" accept=".xlsx" id="file_onput" onChange={handleFileChange} />
+        <button
+          onClick={uploadFile}
+          className="ml-2 bg-black   py-1 text-gray-100 w-16 active:bg-gray-900 active:scale-105 hover:shadow-xl"
+        >
+          {`${isLoading ? "..." : "Upload"}`}
+        </button>
+
         <Select
           options={BUoptionList}
           placeholder="Select BU"
@@ -367,12 +423,12 @@ const YourComponent = () => {
           defaultValue={level}
           // def
           onChange={handleLevelChange}
-          // isClearable={true}
-          // isSearchable={true}
-          // isMulti
+        // isClearable={true}
+        // isSearchable={true}
+        // isMulti
         />
         <button
-          onClick={uploadFile}
+          onClick={processData}
           className="ml-2 bg-black  px-2 py-1 text-gray-100 w-16 active:bg-gray-900 active:scale-105 hover:shadow-xl"
         >
           {`${isLoading ? "..." : "Draw"}`}{" "}
@@ -445,14 +501,38 @@ const YourComponent = () => {
             <thead className="">
               <tr className=" ">
                 <th className=" font-bold  w-56  "></th>
-                {uniqueSubJobFamilies?.map((subJobFamily) => (
-                  <th
-                    key={subJobFamily}
-                    className=" border-gray-300  w-56 font-semibold  "
-                  >
-                    {subJobFamily}
-                  </th>
-                ))}
+                {uniqueSubJobFamilies?.length > 0 ? uniqueSubJobFamilies?.map((subJobFamily) => (
+                  <>
+                    <th
+                      key={subJobFamily}
+                      className=" #border-gray-300  w-56 font-semibold  "
+                    >
+                      {/* {subJobFamily} */}
+                      {""}
+                    </th>
+                    <th
+
+                      className=" #border-gray-300  w-56 font-semibold  "
+                    >
+                      {" "}
+                    </th>
+                   
+                  </>
+                )) : <> 
+                <th
+
+                  className=" #border-gray-300  w-56 font-semibold  "
+                >
+                  {" "}
+                </th>
+                <th
+
+                  className=" #border-gray-300  w-56 font-semibold  "
+                >
+                  {" "}
+                </th>
+               
+                </>}
               </tr>
             </thead>
             <tbody className="">
@@ -460,21 +540,21 @@ const YourComponent = () => {
                 {data?.map((row) => (
                   <tr
                     key={row.band}
-                    className=" border border-dashed border-b-2"
+                    className=" #border border-dashed border-b-2"
                   >
                     <td className=" p-10  font-bold">
                       <div className="relative">
-                        <small className="absolute -rotate-90 text-xl">
+                        <small className="absolute -rotate-90 text-2xl">
                           {row.band}
                         </small>
-                        <small className="absolute  ml-1 -rotate-90 text-center font-bold text-gray-600">
+                        <small className="absolute  ml-1 -rotate-90 text-center text-xl font-bold text-gray-600">
                           {row.range}
                         </small>
                         <span className="absolute scale-[3.6] -top-8 ml-20 text-gray-300 flex flex-col   justify-between">
                           {row.percentage ? (
                             <>
                               <BsArrowUp size={20} />
-                              <small className="text-[0.28rem]  text-center  -rotate-90 font-bold py-2 text-gray-600">
+                              <small className="text-[0.36rem]  text-center  -rotate-90 font-bold py-2 text-gray-600">
                                 {row.percentage ?? ""}
                               </small>
                               <BsArrowDown size={20} />
@@ -488,8 +568,9 @@ const YourComponent = () => {
                     {uniqueSubJobFamilies?.map((subJobFamily) => (
                       <Draggable onDrag={updateXarrow} onStop={updateXarrow}>
                         <td
+                      
                           key={subJobFamily}
-                          className=" z-50   relative  py-[8rem]"
+                          className=" relative  py-[8rem] cursor-pointer"
                         >
                           {row?.uniqueJobs
                             ?.filter(
@@ -497,33 +578,31 @@ const YourComponent = () => {
                             )
                             ?.map((uj, index__, ujobs) => (
                               <>
-                                <div className=" h-36  mt-2 flex flex-col ">
+                                {/* <pre className="z-50 mb-28">{JSON.stringify(ujobs)}</pre> */}
+                                <div className=" h-[8rem]  mt-4 flex gap-4 ">
                                   <div
                                     id={uj?.id ?? "undefined"}
                                     style={{
                                       left: 24,
                                       right: 24,
                                       // bottom: `${uj?.hayScore+10}px`,
-                                      transform: `translate(0,-${
-                                        ((uj?.hayScore ?? 0) / 20) * 1.89 + "px"
-                                      })`,
+                                      transform: `translate(0,-${((uj?.hayScore ?? 0) / 20) * 1.89 + "px"
+                                        })`,
                                     }}
-                                    className={`bg-white absolute z-50  px-1  h-36 w-56  text-[1.2rem] flex flex-col  justify-center items-center 
-                                              text-center ${
-                                                uj?.title
-                                                  ? "outline outline-1 outline-gray-500"
-                                                  : ""
-                                              }  ${
-                                      uj?.stepGapIcon == "High Step Gap"
+                                    className={`bg-white absolute z-50    w-[16rem]  text-[1.5rem] flex flex-col  justify-center items-center 
+                                              text-center ${uj?.title
+                                        ? "outline outline-1 outline-gray-500"
+                                        : ""
+                                      }  ${uj?.stepGapIcon == "High Step Gap"
                                         ? "!bg-blue-200"
                                         : uj?.stepGapIcon == "Low Step Gap"
-                                        ? "!bg-yellow-200"
-                                        : ""
-                                    }`}
+                                          ? "!bg-yellow-200"
+                                          : ""
+                                      }`}
                                   >
                                     {/* <span>{`${uj.id}/${uj.parentId}`}</span> */}
                                     <span className=" absolute right-0 top-0 bg-gray-300  px-1">
-                                      {uj.title_count}
+                                      {uj.title_count > 1 ? uj.title_count : ""}
                                     </span>
                                     <small className=" absolute left-0 top-0 font-semibold">
                                       {uj?.outlierIcon === -1 ? (
@@ -534,11 +613,24 @@ const YourComponent = () => {
                                         <></>
                                       )}{" "}
                                     </small>
-                                    <span className=" ">{uj?.title}</span>
-                                    <small className="">
-                                      {uj?.current_grade}
+                                    <span className=" break-words whitespace-break-spaces "
+                                    style={{
+                                      fontSize:uj.title.length>30?"70%":"100%"
+                                    }}
+                                    >{uj?.title}</span>
+                                    <small className=""
+                                    
+                                    style={{
+                                      fontSize:uj.title.length>30?"70%":"100%"
+                                    }}
+                                    >
+                                      ({uj?.current_grade})
                                     </small>
-                                    <small className=" font-semibold">
+                                    <small className=" font-semibold"
+                                     style={{
+                                      fontSize:uj.title.length>30?"70%":"100%"
+                                    }}
+                                    >
                                       {uj?.hayScore}
                                     </small>
                                   </div>
@@ -550,17 +642,17 @@ const YourComponent = () => {
                                   start={
                                     uj?.parentId && uj.id
                                       ? row.uniqueJobs.find(
-                                          (job) =>
-                                            job.sub_job_family == subJobFamily
-                                        )?.id
+                                        (job) =>
+                                          job.sub_job_family == subJobFamily
+                                      )?.id
                                       : undefined
                                   } //can be react ref
                                   end={
                                     uj?.id
                                       ? row.uniqueJobs.find(
-                                          (job) =>
-                                            job.sub_job_family == subJobFamily
-                                        )?.parentId
+                                        (job) =>
+                                          job.sub_job_family == subJobFamily
+                                      )?.parentId
                                       : undefined
                                   } //or an id
                                   strokeWidth={uj.parentId && uj.id ? 1.5 : 0}
@@ -572,11 +664,11 @@ const YourComponent = () => {
                                   color={
                                     uj?.parentId
                                       ? getRandomColor(
-                                          row.uniqueJobs.find(
-                                            (job) =>
-                                              job.sub_job_family == subJobFamily
-                                          )?.parentId
-                                        )
+                                        row.uniqueJobs.find(
+                                          (job) =>
+                                            job.sub_job_family == subJobFamily
+                                        )?.parentId
+                                      )
                                       : "black"
                                   }
                                   // color="black"
@@ -589,7 +681,11 @@ const YourComponent = () => {
                                   // _debug={true}
                                   // dashness={true}
                                   // labels={`${row.uniqueJobs.find(job=>job.sub_job_family==subJobFamily).parentId} - ${row.uniqueJobs.find(job=>job.sub_job_family==subJobFamily).parentId}`}
-                                  startAnchor={"top"}
+                                  startAnchor={row?.uniqueJobs
+                                    ?.filter(
+                                      (ruj) => ruj.sub_job_family === subJobFamily
+                                    )
+                                    ?.length > 1 ? "top" : "left"}
                                   endAnchor={"bottom"}
                                   gridBreak="5%10"
                                 />
