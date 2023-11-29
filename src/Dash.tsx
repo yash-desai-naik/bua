@@ -685,7 +685,7 @@ const YourComponent = () => {
                                     ?.filter(
                                       (ruj) => ruj.sub_job_family === subJobFamily
                                     )
-                                    ?.length > 1 ? "top" : "left"}
+                                    ?.length > 1 ? "top" : "top"}
                                   endAnchor={"bottom"}
                                   gridBreak="5%10"
                                 />
