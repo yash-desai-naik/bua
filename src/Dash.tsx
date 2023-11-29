@@ -271,7 +271,7 @@ const YourComponent = () => {
       formData.append("excel_file", uploadedFile);
 
       try {
-        setIsLoading(true);
+        // setIsLoading(true);
         // setData(undefined);
         // setIsError(false);
         // setErrorMessage("");
@@ -357,8 +357,8 @@ const YourComponent = () => {
         setData(response.data);
         const uniqueSubJobFamilies_ = Array.from(
           new Set(
-            data.flatMap((item) =>
-              item.uniqueJobs.map((job) => job.sub_job_family)
+            data?.flatMap((item) =>
+              item?.uniqueJobs.map((job) => job.sub_job_family)
             )
           )
         );
