@@ -376,13 +376,13 @@ const YourComponent = () => {
   };
 
   return (
-    <div className="  bg-transparent">
-      <div className=" flex gap-4 py-4 px-4">
+    <div className="bg-transparent ">
+      <div className="flex gap-4 px-4 py-4 ">
 
         <input className="w-56" type="file" accept=".xlsx" id="file_onput" onChange={handleFileChange} />
         <button
           onClick={uploadFile}
-          className="ml-2 bg-black   py-1 text-gray-100 w-16 active:bg-gray-900 active:scale-105 hover:shadow-xl"
+          className="w-16 py-1 ml-2 text-gray-100 bg-black active:bg-gray-900 active:scale-105 hover:shadow-xl"
         >
           {`${isLoading ? "..." : "Upload"}`}
         </button>
@@ -429,14 +429,14 @@ const YourComponent = () => {
         />
         <button
           onClick={processData}
-          className="ml-2 bg-black  px-2 py-1 text-gray-100 w-16 active:bg-gray-900 active:scale-105 hover:shadow-xl"
+          className="w-16 px-2 py-1 ml-2 text-gray-100 bg-black active:bg-gray-900 active:scale-105 hover:shadow-xl"
         >
           {`${isLoading ? "..." : "Draw"}`}{" "}
         </button>
         {data && data.length > 0 ? (
           <>
             <button
-              className="bg-black py-1 px-2  text-gray-100 w-16 active:bg-gray-900 active:scale-105 hover:shadow-xl"
+              className="w-16 px-2 py-1 text-gray-100 bg-black active:bg-gray-900 active:scale-105 hover:shadow-xl"
               onClick={downloadScreenshot}
             >
               Export
@@ -449,13 +449,13 @@ const YourComponent = () => {
       </div>
       {data && data.length ? (
         <section ref={ref}>
-          <div className=" header ">
-            <div className=" justify-between items-center">
+          <div className=" header">
+            <div className="items-center justify-between ">
               <h1 className="text-4xl text-green-900 ">
                 Emerging Relativity of roles – SBUs ({buValue ?? "All"}) - (
                 {jobFamilyMapping ?? "All"})
               </h1>
-              <div className="  mt-4 float-right">
+              <div className="float-right mt-4 ">
                 <div className=" mr-32 legend-outlier flex gap-4 scale-[1.5]">
                   <div className="flex-col gap-4 my-2">
                     <span className="inline-flex gap-3">
@@ -468,8 +468,8 @@ const YourComponent = () => {
                     </span>
                   </div>
                   <div className="flex-col gap-2">
-                    <span className=" inline-flex  gap-2 my-2">
-                      <div style={{ width: "20px" }} className=" bg-blue-200">
+                    <span className="inline-flex gap-2 my-2 ">
+                      <div style={{ width: "20px" }} className="bg-blue-200 ">
                         {" "}
                       </div>
                       <small className="text-xs">High Step-Gap</small>
@@ -477,17 +477,17 @@ const YourComponent = () => {
                     <span className="flex gap-2">
                       <div
                         style={{ width: "20px" }}
-                        className=" bg-yellow-200"
+                        className="bg-yellow-200 "
                       />
                       <small className="text-xs">Low Step-Gap</small>
                     </span>
                   </div>
                   <div className="flex-col gap-2 my-2">
-                    <span className="text-green-800 inline-flex  gap-2">
+                    <span className="inline-flex gap-2 text-green-800">
                       <BsFillBookmarkFill />
                       <small className="text-xs">High Span of Control</small>
                     </span>
-                    <span className="text-red-800 flex gap-2">
+                    <span className="flex gap-2 text-red-800">
                       <BsFillBookmarkFill />
                       <small className="text-xs">Low Span of Control</small>
                     </span>
@@ -497,10 +497,10 @@ const YourComponent = () => {
             </div>
           </div>
 
-          <table className="mt-20 min-w-full overflow-x-visible">
+          <table className="min-w-full mt-20 overflow-x-visible">
             <thead className="">
-              <tr className=" ">
-                <th className=" font-bold  w-56  "></th>
+              <tr className="">
+                <th className="w-56 font-bold "></th>
                 {uniqueSubJobFamilies?.length > 0 ? uniqueSubJobFamilies?.map((subJobFamily) => (
                   <>
                     <th
@@ -508,7 +508,7 @@ const YourComponent = () => {
                       className=" #border-gray-300  w-56 font-semibold  "
                     >
                       {/* {subJobFamily} */}
-                      {""}
+
                     </th>
                     <th
 
@@ -516,22 +516,22 @@ const YourComponent = () => {
                     >
                       {" "}
                     </th>
-                   
+
                   </>
-                )) : <> 
-                <th
+                )) : <>
+                  <th
 
-                  className=" #border-gray-300  w-56 font-semibold  "
-                >
-                  {" "}
-                </th>
-                <th
+                    className=" #border-gray-300  w-56 font-semibold  "
+                  >
+                    {" "}
+                  </th>
+                  <th
 
-                  className=" #border-gray-300  w-56 font-semibold  "
-                >
-                  {" "}
-                </th>
-               
+                    className=" #border-gray-300  w-56 font-semibold  "
+                  >
+                    {" "}
+                  </th>
+
                 </>}
               </tr>
             </thead>
@@ -542,12 +542,12 @@ const YourComponent = () => {
                     key={row.band}
                     className=" #border border-dashed border-b-2"
                   >
-                    <td className=" p-10  font-bold">
+                    <td className="p-10 font-bold ">
                       <div className="relative">
-                        <small className="absolute -rotate-90 text-2xl">
+                        <small className="absolute text-2xl -rotate-90">
                           {row.band}
                         </small>
-                        <small className="absolute  ml-1 -rotate-90 text-center text-xl font-bold text-gray-600">
+                        <small className="absolute ml-1 text-xl font-bold text-center text-gray-600 -rotate-90">
                           {row.range}
                         </small>
                         <span className="absolute scale-[3.6] -top-8 ml-20 text-gray-300 flex flex-col   justify-between">
@@ -568,7 +568,7 @@ const YourComponent = () => {
                     {uniqueSubJobFamilies?.map((subJobFamily) => (
                       <Draggable onDrag={updateXarrow} onStop={updateXarrow}>
                         <td
-                      
+
                           key={subJobFamily}
                           className=" relative  py-[8rem] cursor-pointer"
                         >
@@ -601,10 +601,10 @@ const YourComponent = () => {
                                       }`}
                                   >
                                     {/* <span>{`${uj.id}/${uj.parentId}`}</span> */}
-                                    <span className=" absolute right-0 top-0 bg-gray-300  px-1">
+                                    <span className="absolute top-0 right-0 px-1 bg-gray-300 ">
                                       {uj.title_count > 1 ? uj.title_count : ""}
                                     </span>
-                                    <small className=" absolute left-0 top-0 font-semibold">
+                                    <small className="absolute top-0 left-0 font-semibold ">
                                       {uj?.outlierIcon === -1 ? (
                                         <NegativeOutlierIcon />
                                       ) : uj?.outlierIcon === 1 ? (
@@ -613,23 +613,23 @@ const YourComponent = () => {
                                         <></>
                                       )}{" "}
                                     </small>
-                                    <span className=" break-words whitespace-break-spaces "
-                                    style={{
-                                      fontSize:uj.title.length>30?"70%":"100%"
-                                    }}
+                                    <span className="break-words whitespace-break-spaces"
+                                      style={{
+                                        fontSize: uj.title.length > 30 ? "70%" : "100%"
+                                      }}
                                     >{uj?.title}</span>
                                     <small className=""
-                                    
-                                    style={{
-                                      fontSize:uj.title.length>30?"70%":"100%"
-                                    }}
+
+                                      style={{
+                                        fontSize: uj.title.length > 30 ? "70%" : "100%"
+                                      }}
                                     >
                                       ({uj?.current_grade})
                                     </small>
-                                    <small className=" font-semibold"
-                                     style={{
-                                      fontSize:uj.title.length>30?"70%":"100%"
-                                    }}
+                                    <small className="font-semibold "
+                                      style={{
+                                        fontSize: uj.title.length > 30 ? "70%" : "100%"
+                                      }}
                                     >
                                       {uj?.hayScore}
                                     </small>
