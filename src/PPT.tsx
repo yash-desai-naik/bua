@@ -59,6 +59,23 @@ const PPT = () => {
         });
       });
 
+    
+      slide.addText('CEO\n(L1)\n\n1200', {
+        shape:pres.ShapeType.rect,
+        fill: { color: "FFFFFF", type:"none" },
+        line:{ width:2, color:'A9A9A9' },
+
+       
+        x: cmToIn(1.5),
+        y: cmToIn(10.2),
+        w: cmToIn(2.5),
+        h: cmToIn(2.5),
+        fontSize: 12,
+        align: "center",
+        wrap: false,
+        
+      })
+
     // 4. Save the Presentation
     pres.writeFile();
   }
