@@ -182,18 +182,18 @@ const PPT = ({ data }: { data: Data[] }) => {
 
     // });
 
-    slide.addText(
-      [
-        { text: 'CEO', options: { fontSize: 24, bullet: true, color: '00FF00', indentLevel: 0 } },
-        { text: 'ManagerA\n', options: { fontSize: 24, bullet: true, color: 'FF0000', indentLevel: 1 } },
-        { text: 'ManagerB', options: { fontSize: 24, bullet: true, color: 'FF0000', indentLevel: 1 } },
-        { text: 'Employee1', options: { fontSize: 24, bullet: true, color: 'FF0000', indentLevel: 2 } },
-        { text: 'Employee1', options: { fontSize: 24, bullet: true, color: 'FF0000', indentLevel: 2 } },
-        { text: 'Emp1', options: { fontSize: 24, bullet: true, color: 'FF0000', indentLevel: 3 } },
-        { text: 'Emp1', options: { fontSize: 24, bullet: true, color: 'FF0000', indentLevel: 4 } },
-      ],
-      { x: 1.5, y: 1.5, w: 6, h: 2, margin: 0.1, }
-    );
+    // slide.addText(
+    //   [
+    //     { text: 'CEO', options: { fontSize: 24, bullet: true, color: '00FF00', indentLevel: 0 } },
+    //     { text: 'ManagerA\n', options: { fontSize: 24, bullet: true, color: 'FF0000', indentLevel: 1 } },
+    //     { text: 'ManagerB', options: { fontSize: 24, bullet: true, color: 'FF0000', indentLevel: 1 } },
+    //     { text: 'Employee1', options: { fontSize: 24, bullet: true, color: 'FF0000', indentLevel: 2 } },
+    //     { text: 'Employee1', options: { fontSize: 24, bullet: true, color: 'FF0000', indentLevel: 2 } },
+    //     { text: 'Emp1', options: { fontSize: 24, bullet: true, color: 'FF0000', indentLevel: 3 } },
+    //     { text: 'Emp1', options: { fontSize: 24, bullet: true, color: 'FF0000', indentLevel: 4 } },
+    //   ],
+    //   { x: 1.5, y: 1.5, w: 6, h: 2, margin: 0.1, }
+    // );
 
 
     // 4. Save the Presentation
