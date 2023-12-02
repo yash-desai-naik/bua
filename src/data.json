@@ -1,106 +1,6 @@
 [
-    {
-        "band": "L0",
-        "range": "2001 and above",
-        "percentage": null,
-        "uniqueJobs": []
-    },
-    {
-        "band": "L1",
-        "range": "1350-2000",
-        "percentage": "1%",
-        "uniqueJobs": []
-    },
-    {
-        "band": "L2",
-        "range": "950-1359",
-        "percentage": "1%",
-        "uniqueJobs": [
-            {
-                "title": "Chief Human Resource Officer",
-                "title_count": 1,
-                "current_band": "L2",
-                "current_grade": "CX2",
-                "current_grade_color": "rgb(155, 40, 204)",
-                "sub_job_family": "HR & Admin.",
-                "hayScore": 1142,
-                "outlierIcon": 0,
-                "stepGapIcon": "Other Step Gap",
-                "id": "AB289",
-                "parentId": null,
-                "level": 2
-            }
-        ]
-    },
-    {
-        "band": "L3",
-        "range": "682-949",
-        "percentage": "1%",
-        "uniqueJobs": []
-    },
-    {
-        "band": "L4",
-        "range": "502-681",
-        "percentage": "1%",
-        "uniqueJobs": [
-            {
-                "title": "Head-Talent Management and L&OD",
-                "title_count": 1,
-                "current_band": "L3",
-                "current_grade": "L1B",
-                "current_grade_color": "rgb(204, 40, 70)",
-                "sub_job_family": "Talent Management and L&OD",
-                "hayScore": 571,
-                "outlierIcon": -1,
-                "stepGapIcon": "Other Step Gap",
-                "id": "AB290",
-                "parentId": "AB289",
-                "level": 3
-            },
-            {
-                "title": "Head-Security & Administration",
-                "title_count": 1,
-                "current_band": "L3",
-                "current_grade": "L1B",
-                "current_grade_color": "rgb(204, 40, 70)",
-                "sub_job_family": "Security & Administration",
-                "hayScore": 619,
-                "outlierIcon": -1,
-                "stepGapIcon": "Other Step Gap",
-                "id": "AB291",
-                "parentId": "AB289",
-                "level": 3
-            },
-            {
-                "title": "Head-HR Operations & Industrial Relations",
-                "title_count": 1,
-                "current_band": "L3",
-                "current_grade": "L1B",
-                "current_grade_color": "rgb(204, 40, 70)",
-                "sub_job_family": "HR Operations & IR",
-                "hayScore": 677,
-                "outlierIcon": -1,
-                "stepGapIcon": "Other Step Gap",
-                "id": "AB292",
-                "parentId": "AB289",
-                "level": 3
-            },
-            {
-                "title": "Head-Corporate Affairs",
-                "title_count": 1,
-                "current_band": "L4",
-                "current_grade": "L1C",
-                "current_grade_color": "rgb(204, 187, 40)",
-                "sub_job_family": "Corporate Affairs & Liaison",
-                "hayScore": 611,
-                "outlierIcon": 0,
-                "stepGapIcon": "Other Step Gap",
-                "id": "AB293",
-                "parentId": "AB289",
-                "level": 3
-            }
-        ]
-    },
+    
+   
     {
         "band": "L5",
         "range": "392-501",
@@ -217,27 +117,6 @@
                 "id": "AB335",
                 "parentId": "AB289",
                 "level": 3
-            }
-        ]
-    },
-    {
-        "band": "L8",
-        "range": "240 and below",
-        "percentage": null,
-        "uniqueJobs": [
-            {
-                "title": "Human Resource Executive",
-                "title_count": 3,
-                "current_band": "L7",
-                "current_grade": "M6",
-                "current_grade_color": "rgb(40, 204, 196)",
-                "sub_job_family": "HR Operations & IR",
-                "hayScore": 240,
-                "outlierIcon": -1,
-                "stepGapIcon": "Other Step Gap",
-                "id": "AB329",
-                "parentId": "AB290",
-                "level": 4
             }
         ]
     }

@@ -16,6 +16,7 @@ import axios from "axios";
 import "./App.css";
 // import * as htmlToImage from "html-to-image";
 import { jsPDF } from "jspdf";
+import PPT from "./PPT";
 
 const NegativeOutlierIcon = () => (
   <>
@@ -203,25 +204,9 @@ const YourComponent = () => {
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [data, setData] = useState<
-    {
-      band: string;
-      range: string;
-      percentage: string;
-      uniqueJobs: {
-        title: string;
-        current_band: string;
-        current_grade: string;
-        curret_grade_color: string;
-        hayScore: number;
-        outlierIcon: -1 | 1 | 0;
-        stepGapIcon: "High Step Gap" | "Low Step Gap" | "Other Step Gap";
-        id: string;
-        parentId: string;
-        sub_job_family: string;
-      }[];
-    }[]
-  >([]); // Initialize data as an empty array
+
+
+  const [data, setData] = useState<Data[]>([]); // Initialize data as an empty array
 
   const [uniqueSubJobFamilies, setUniqueSubJobFamilies] = useState<string[]>();
 
@@ -354,14 +339,14 @@ const YourComponent = () => {
         });
 
         // Assuming the API response is in the expected format
-        setData(response.data);
         const uniqueSubJobFamilies_ = Array.from(
           new Set(
-            data?.flatMap((item) =>
+            response.data?.flatMap((item) =>
               item?.uniqueJobs.map((job) => job.sub_job_family)
             )
           )
         );
+        setData(response.data);
         setUniqueSubJobFamilies(uniqueSubJobFamilies_);
         setIsLoading(false);
         console.log("data", data);
@@ -429,19 +414,21 @@ const YourComponent = () => {
         />
         <button
           onClick={processData}
-          className="w-16 px-2 py-1 ml-2 text-gray-100 bg-black active:bg-gray-900 active:scale-105 hover:shadow-xl"
+          className="w-16 px-1 py-1 ml-2 text-gray-100 bg-black active:bg-gray-900 active:scale-105 hover:shadow-xl"
         >
           {`${isLoading ? "..." : "Draw"}`}{" "}
         </button>
         {data && data.length > 0 ? (
           <>
-            <button
+            {/* <button
               className="w-16 px-2 py-1 text-gray-100 bg-black active:bg-gray-900 active:scale-105 hover:shadow-xl"
               onClick={downloadScreenshot}
             >
               Export
-            </button>
+            </button> */}
             {/* <button onClick={downloadPdf}>Export PDF</button> */}
+
+            <PPT data={data} />
           </>
         ) : (
           <></>
