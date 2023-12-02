@@ -1,5 +1,4 @@
 import pptxgen from "pptxgenjs";
-import { useState } from "react";
 import { Data } from "./@types";
 
 
@@ -12,15 +11,15 @@ function cmToIn(cm: number) {
 
 const PPT = ({ data }: { data: Data[] }) => {
 
-  const [bands, setBands] = useState<
-    {
-      band: string;
-      bandH: number;
-      bandW: number;
-      bandX: number;
-      bandY: number;
-    }[]
-  >();
+  // const [bands, setBands] = useState<
+  //   {
+  //     band: string;
+  //     bandH: number;
+  //     bandW: number;
+  //     bandX: number;
+  //     bandY: number;
+  //   }[]
+  // >();
   function makePPT() {
     // 1. Create a new Presentation
     let pptx = new pptxgen();
@@ -56,13 +55,13 @@ const PPT = ({ data }: { data: Data[] }) => {
       bandY: cmToIn(26.73 - cmToIn(index * 64 / bs.length)),
     }))
 
-    setBands(
-      bs_
-    );
+    // setBands(
+    //   bs_
+    // );
 
 
 
-    bs_?.map((band, index) => {
+    bs_?.map((band) => {
       slide.addText(band.band, {
         x: band.bandX,
         y: band.bandY,
